@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { LocalizedLink as Link } from "@/components/actions/LocalizedLink";
 import type { Pillar } from "@/content/types";
 import { Reveal } from "@/components/utilities/Reveal";
 import { Arrow } from "@/components/actions/ArrowLink";

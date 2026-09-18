@@ -13,18 +13,26 @@ Principle: **Simple on the surface. Serious underneath.** GDA coordinates; profe
 - Resend (email), Airtable / HubSpot / webhook adapters via `fetch`
 - Vitest for unit tests (fit rules, schemas)
 
-Internationalisation: content is typed per locale under `src/content/<locale>/`. Only `en` ships; `es` and `pt` are reserved (`config/features.ts`). Locale routing (e.g. next-intl) is a Phase 2 addition once translations exist — the content architecture is what makes that a translation task rather than a rebuild.
+## Languages (English and Spanish)
+
+- **URLs:** English at the root (`/how-it-works`), Spanish under `/es` (`/es/how-it-works`). `/en/…` permanently redirects to the root form so English has one canonical URL.
+- **Routing:** every page lives under `app/[locale]/`, which holds the root layout (`<html lang>`), `generateStaticParams` for both locales, `not-found`, `error` and the OG image. `src/proxy.ts` rewrites unprefixed requests to `/en/…` internally, and on a **first visit** redirects to `/es/…` when the browser's `Accept-Language` prefers Spanish. An explicit choice in the language switcher sets a one-year functional cookie (`gda-locale`) that wins over the browser setting on later visits. Search engines get English at the root and find Spanish through `hreflang` alternates on every page and in the sitemap.
+- **Content:** `src/content/en` and `src/content/es` export identical shapes; `content/index.ts` enforces this with `satisfies Content`, so an untranslated key fails the build. Server code reads the locale with `getLocale()` (`next/root-params`) and calls `getContent(locale)`. Client Components use `useLocale()` / `useContent()` (a smaller bundle: navigation, legal lines, flows, contact, errors). Flow definitions are built per locale by `getFlow(id, locale)`.
+- **Links:** content keeps locale-free hrefs; `LocalizedLink` (used by `Button`, `TextLink`, `ArrowLink`, header, footer, menu) adds the `/es` prefix. Validation messages are emitted in English by the shared zod schemas and translated at display time through `flowUi.validation`. Country names and dates use `Intl` for the locale. Confirmation emails go out in the submitter's chosen language; the internal notification stays in English and notes the language.
+- **Adding a locale:** one entry in `lib/i18n/locales.ts`, a `content/<locale>` directory of the same shape, and a row in `flowUi.validation`. Portuguese is reserved (`features.reservedLocales`).
 
 ## Directory map
 
 ```
 src/
+  proxy.ts                     locale routing: rewrite to /en, redirect Spanish-preferring first visits to /es
   app/
-    layout.tsx                 root: fonts (self-hosted via next/font), metadata, skip link, optional analytics
-    (marketing)/               header + footer; static pages
-    (flows)/                   minimal header, standing disclosure, noindex; /evaluate and /investors/access
+    [locale]/layout.tsx        root: <html lang>, fonts (self-hosted via next/font), metadata, LocaleProvider
+    [locale]/(marketing)/      header + footer; static pages, prerendered per locale
+    [locale]/(flows)/          minimal header, standing disclosure, noindex; /evaluate and /investors/access
+    [locale]/not-found.tsx error.tsx opengraph-image.tsx
     api/submit/[kind]/route.ts one submission handler for fit-check | investor-access | contact
-    not-found.tsx error.tsx global-error.tsx sitemap.ts robots.ts opengraph-image.tsx
+    global-error.tsx sitemap.ts robots.ts favicon.ico
   components/
     layout/      Section (sets the ground via data-theme), Container, Grid, Hairline, SiteHeader, MobileMenu, SiteFooter, Wordmark
     typography/  Eyebrow, Heading, Text, RevealLines

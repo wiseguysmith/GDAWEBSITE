@@ -23,6 +23,8 @@ export const howItWorks = {
     eyebrow: "Five stages",
     heading: "Fit. Ready. Validated. Structured. Activated.",
     body: "Nothing advances before it is ready. Each stage has a defined purpose, a defined owner and a defined output.",
+    stageLabel: "Stage {current} of {total}",
+    responsibleLabel: "Responsible",
   },
 
   responsibilities: {

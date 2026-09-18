@@ -1,17 +1,18 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { content } from "@/content";
-import { flows, type FlowId } from "@/forms/registry";
+import { useContent } from "@/content/useContent";
+import { getFlow, type FlowId } from "@/forms/registry";
 import type { FlowAnswers, StepDefinition } from "@/forms/types";
 import type { AnalyticsEvent } from "@/lib/analytics/events";
 import { track } from "@/lib/analytics/track";
+import { useLocale } from "@/lib/i18n/LocaleProvider";
 import { honeypotField } from "@/lib/security/spam-shared";
 import { Button } from "@/components/actions/Button";
+import { LocalizedLink } from "@/components/actions/LocalizedLink";
 import { Disclosure } from "@/components/content/Disclosure";
 import { Eyebrow } from "@/components/typography/Eyebrow";
 import { clearDraft, saveDraft, useDraft } from "./draft";
@@ -44,8 +45,9 @@ function newAttemptKey(): string {
  * drafts persist non-contact answers only.
  */
 export function FlowShell({ flowId }: FlowShellProps) {
-  const flow = flows[flowId];
-  const ui = content.flowUi;
+  const locale = useLocale();
+  const flow = getFlow(flowId, locale);
+  const ui = useContent().flowUi;
   const reduced = useReducedMotion();
   const [phase, setPhase] = useState<Phase>("intro");
   const [stepIndex, setStepIndex] = useState(0);
@@ -139,7 +141,7 @@ export function FlowShell({ flowId }: FlowShellProps) {
             attemptKey: attemptKey.current,
             honeypot: honeypotRef.current?.value ?? "",
             turnstileToken: turnstileToken.current,
-            locale: (answers.language as string) ?? "en",
+            locale: (answers.language as string) ?? locale,
           },
         }),
       });
@@ -163,7 +165,7 @@ export function FlowShell({ flowId }: FlowShellProps) {
       setErrorKind("generic");
       setPhase("error");
     }
-  }, [answers, flow]);
+  }, [answers, flow, locale]);
 
   const onToken = useCallback((token: string | undefined) => {
     turnstileToken.current = token;
@@ -225,9 +227,9 @@ export function FlowShell({ flowId }: FlowShellProps) {
             ) : (
               <div className="flex flex-col gap-3 xs:flex-row xs:items-center xs:gap-6">
                 <Button onClick={() => begin()}>{flow.intro.begin}</Button>
-                <Link href="/security" className="link-draw text-small text-fg-2">
+                <LocalizedLink href="/security" className="link-draw text-small text-fg-2">
                   {ui.privacyNote}
-                </Link>
+                </LocalizedLink>
               </div>
             )}
           </motion.section>
@@ -321,7 +323,7 @@ type StepFormProps = {
 
 /** One question per screen, validated with the step's zod schema on Continue. */
 function StepForm({ step, index, defaults, headingRef, onSubmit, onBack, onClearDraft, isLast }: StepFormProps) {
-  const ui = content.flowUi;
+  const ui = useContent().flowUi;
   const {
     register,
     handleSubmit,

@@ -1,7 +1,7 @@
 "use client";
 
 import type { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
-import { content } from "@/content";
+import { useContent } from "@/content/useContent";
 import type { FieldDefinition, FlowAnswers } from "@/forms/types";
 import { Choice } from "./Choice";
 import { Checkbox, CountrySelect, Input, Select, Textarea } from "./Controls";
@@ -16,9 +16,11 @@ type StepFieldsProps = {
   errors: FieldErrors<FlowAnswers>;
 };
 
-function errorMessage(errors: FieldErrors<FlowAnswers>, name: string): string | undefined {
+/** Schemas emit English messages; each locale maps them in flowUi.validation. */
+function errorMessage(errors: FieldErrors<FlowAnswers>, name: string, translations: Record<string, string>): string | undefined {
   const e = errors[name];
-  return typeof e?.message === "string" ? e.message : undefined;
+  if (typeof e?.message !== "string") return undefined;
+  return translations[e.message] ?? e.message;
 }
 
 function isShown(when: { field: string; equals: string | string[] }, watch: UseFormWatch<FlowAnswers>): boolean {
@@ -28,11 +30,11 @@ function isShown(when: { field: string; equals: string | string[] }, watch: UseF
 
 /** Renders a step's fields from its definition — the only place field kinds are mapped to controls. */
 export function StepFields({ stepTitle, fields, register, watch, errors }: StepFieldsProps) {
-  const ui = content.flowUi;
+  const ui = useContent().flowUi;
   return (
     <div className="flex flex-col gap-8">
       {fields.map((field) => {
-        const error = errorMessage(errors, field.name);
+        const error = errorMessage(errors, field.name, ui.validation);
         const id = `f-${field.name}`;
 
         switch (field.kind) {

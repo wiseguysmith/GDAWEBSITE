@@ -1,7 +1,9 @@
-import Link from "next/link";
-import { content } from "@/content";
+"use client";
+
+import { useContent } from "@/content/useContent";
 import { retention } from "@/config/retention";
 import { cn } from "@/lib/cn";
+import { LocalizedLink } from "@/components/actions/LocalizedLink";
 
 type InfoDrawerProps = { className?: string };
 
@@ -11,7 +13,7 @@ type InfoDrawerProps = { className?: string };
  * Retention values come from config so this can never disagree with /security.
  */
 export function InfoDrawer({ className }: InfoDrawerProps) {
-  const h = content.handling;
+  const h = useContent().handling;
   const rows = [
     h.rows.collected,
     h.rows.sentTo,
@@ -35,9 +37,9 @@ export function InfoDrawer({ className }: InfoDrawerProps) {
           </div>
         ))}
         <div className="pt-1">
-          <Link href="/security" className="link-draw text-small text-fg">
+          <LocalizedLink href="/security" className="link-draw text-small text-fg">
             {h.more}
-          </Link>
+          </LocalizedLink>
         </div>
       </dl>
     </details>

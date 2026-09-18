@@ -43,6 +43,8 @@ export const flowUi = {
     fitPotential: "Preliminary indication given · pending GDA review",
     fitReview: "Received · pending GDA review",
   },
+  /** Validation messages keyed by the English message the schemas emit. English needs no mapping. */
+  validation: {} as Record<string, string>,
 };
 
 /** Inline information-handling drawer on contact steps (design direction §04). Values come from config/retention. */

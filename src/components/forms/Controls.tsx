@@ -1,8 +1,10 @@
 "use client";
 
-import { forwardRef, type ComponentPropsWithoutRef } from "react";
+import { forwardRef, useMemo, type ComponentPropsWithoutRef } from "react";
 import { cn } from "@/lib/cn";
-import { countries } from "@/lib/countries";
+import { countries, displayName } from "@/lib/countries";
+import { localeMeta } from "@/lib/i18n/locales";
+import { useLocale } from "@/lib/i18n/LocaleProvider";
 import type { Option } from "@/forms/types";
 import { controlClass } from "./Field";
 
@@ -59,18 +61,27 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
 
 type CountrySelectProps = ComponentPropsWithoutRef<"select"> & { invalid?: boolean; placeholder?: string };
 
+const countryPlaceholder: Record<string, string> = { en: "Select a country…", es: "Seleccione un país…" };
+
 /**
  * Full ISO-3166 list in a native select: type-to-jump on desktop, the system
  * picker on mobile, and no custom widget to maintain for accessibility.
+ * Names are localised with Intl.DisplayNames and sorted for the locale.
  */
 export const CountrySelect = forwardRef<HTMLSelectElement, CountrySelectProps>(function CountrySelect({ invalid, placeholder, className, ...rest }, ref) {
+  const locale = useLocale();
+  const intl = localeMeta[locale].intl;
+  const options = useMemo(() => {
+    const collator = new Intl.Collator(intl);
+    return countries.map((c) => ({ code: c.code, name: displayName(c.code, intl) })).sort((a, b) => collator.compare(a.name, b.name));
+  }, [intl]);
   return (
     <div className="focus-draw">
       <select ref={ref} aria-invalid={invalid || undefined} className={cn(controlClass, "appearance-none pr-10", className)} defaultValue="" autoComplete="country" {...rest}>
         <option value="" disabled={rest.required}>
-          {placeholder ?? "Select a country…"}
+          {placeholder ?? countryPlaceholder[locale] ?? countryPlaceholder.en}
         </option>
-        {countries.map((c) => (
+        {options.map((c) => (
           <option key={c.code} value={c.code}>
             {c.name}
           </option>

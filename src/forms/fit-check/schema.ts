@@ -77,12 +77,6 @@ export const stepContact = z.object({
   consent,
 });
 
-export const fitCheckSchema = stepProjectType
-  .and(stepJurisdiction)
-  .and(stepStage)
-  .and(stepRelationship)
-  .and(stepObjective)
-  .and(stepEconomics)
-  .and(stepContact);
+export const fitCheckSchema = stepProjectType.and(stepJurisdiction).and(stepStage).and(stepRelationship).and(stepObjective).and(stepEconomics).and(stepContact);
 
 export type FitCheckAnswers = z.infer<typeof fitCheckSchema>;

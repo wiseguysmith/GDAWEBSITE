@@ -21,6 +21,11 @@ export const nav = {
     title: "Menu",
   },
   skipToContent: "Skip to content",
+  exit: "Exit",
+  language: {
+    label: "Language",
+    switchTo: "Switch to",
+  },
 };
 
 export const footer = {
@@ -55,6 +60,5 @@ export const footer = {
     },
   ] satisfies { title: string; links: NavItem[] }[],
   languageLabel: "Language",
-  languages: [{ code: "en", label: "English" }],
   copyright: (year: number) => `© ${year} Global Digital Access.`,
 };

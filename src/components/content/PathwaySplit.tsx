@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { LocalizedLink as Link } from "@/components/actions/LocalizedLink";
 import type { Pathway } from "@/content/types";
 import { analyticsEvents } from "@/lib/analytics/events";
 import { track } from "@/lib/analytics/track";

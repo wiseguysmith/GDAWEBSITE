@@ -123,3 +123,12 @@ export type ContentBlock = {
   paragraphs: string[];
   bullets?: string[];
 };
+
+/** Legal lines used inline across the site. */
+export type LegalLines = {
+  standing: string;
+  investor: string;
+  fitCheck: string;
+  consent: string;
+  footprintIntro: string;
+};

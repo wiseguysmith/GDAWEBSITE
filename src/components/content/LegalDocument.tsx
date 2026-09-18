@@ -1,5 +1,6 @@
 import type { LegalDocument as LegalDocumentType } from "@/content/types";
 import { cn } from "@/lib/cn";
+import { localeMeta, type Locale } from "@/lib/i18n/locales";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { PageHero } from "./PageHero";
@@ -58,23 +59,34 @@ function ControlsMatrix({ controls }: { controls: Controls }) {
 type LegalDocumentProps = {
   doc: LegalDocumentType;
   eyebrow: string;
+  locale: Locale;
 };
 
-function formatDate(iso: string): string {
+const labels: Record<Locale, { version: string; updated: string }> = {
+  en: { version: "Version", updated: "Updated" },
+  es: { version: "Versión", updated: "Actualizado" },
+};
+
+function formatDate(iso: string, intl: string): string {
   const d = new Date(`${iso}T00:00:00Z`);
-  return new Intl.DateTimeFormat("en", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(d);
+  return new Intl.DateTimeFormat(intl, { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(d);
 }
 
 /** Legal and supporting pages: version and date in the head, sections in the prose measure. */
-export function LegalDocument({ doc, eyebrow }: LegalDocumentProps) {
+export function LegalDocument({ doc, eyebrow, locale }: LegalDocumentProps) {
+  const l = labels[locale];
   return (
     <>
       <PageHero eyebrow={eyebrow} heading={doc.title} sub={doc.intro} />
       <Section theme="white" spacing="tight">
         <Container width="prose">
           <p className="text-eyebrow text-fg-3 flex flex-wrap gap-x-6 gap-y-2 border-b border-rule pb-6">
-            <span>Version {doc.version}</span>
-            <span>Updated {formatDate(doc.updatedAt)}</span>
+            <span>
+              {l.version} {doc.version}
+            </span>
+            <span>
+              {l.updated} {formatDate(doc.updatedAt, localeMeta[locale].intl)}
+            </span>
           </p>
           {doc.controls ? <ControlsMatrix controls={doc.controls} /> : null}
           <div className="mt-10 flex flex-col gap-10">

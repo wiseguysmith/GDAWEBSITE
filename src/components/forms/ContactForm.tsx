@@ -4,10 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { content } from "@/content";
+import { useContent } from "@/content/useContent";
 import { contactSchema, enquiryTypes, type ContactAnswers } from "@/forms/contact/schema";
 import { analyticsEvents } from "@/lib/analytics/events";
 import { track } from "@/lib/analytics/track";
+import { useLocale } from "@/lib/i18n/LocaleProvider";
 import { honeypotField } from "@/lib/security/spam-shared";
 import { Button } from "@/components/actions/Button";
 import { Disclosure } from "@/components/content/Disclosure";
@@ -21,8 +22,8 @@ type Phase = "idle" | "submitting" | "done" | "error";
 
 /** Single-screen enquiry form on the same submission pipeline as the flows. */
 export function ContactForm() {
-  const c = content.contact;
-  const ui = content.flowUi;
+  const locale = useLocale();
+  const { contact: c, flowUi: ui, legal } = useContent();
   const params = useSearchParams();
   const initialType = params.get("type");
   const [phase, setPhase] = useState<Phase>("idle");
@@ -62,7 +63,7 @@ export function ContactForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           answers: values,
-          meta: { startedAt: startedAt.current, attemptKey: attemptKey.current, honeypot: honeypot.current?.value ?? "", turnstileToken: token.current, locale: "en" },
+          meta: { startedAt: startedAt.current, attemptKey: attemptKey.current, honeypot: honeypot.current?.value ?? "", turnstileToken: token.current, locale },
         }),
       });
       if (res.status === 429) {
@@ -99,7 +100,11 @@ export function ContactForm() {
     );
   }
 
-  const err = (name: keyof ContactAnswers) => (typeof errors[name]?.message === "string" ? (errors[name]?.message as string) : undefined);
+  const err = (name: keyof ContactAnswers) => {
+    const message = errors[name]?.message;
+    if (typeof message !== "string") return undefined;
+    return ui.validation[message] ?? message;
+  };
 
   return (
     <form onSubmit={(e) => void handleSubmit(onSubmit)(e)} noValidate className="flex flex-col gap-8">
@@ -122,7 +127,7 @@ export function ContactForm() {
       </Field>
       <InfoDrawer />
       <div className="flex flex-col gap-2 border-t border-rule pt-6">
-        <Checkbox id="c-consent" {...register("consent")} label={content.legal.consent} invalid={Boolean(err("consent"))} aria-describedby={err("consent") ? "c-consent-error" : undefined} />
+        <Checkbox id="c-consent" {...register("consent")} label={legal.consent} invalid={Boolean(err("consent"))} aria-describedby={err("consent") ? "c-consent-error" : undefined} />
         {err("consent") ? (
           <p id="c-consent-error" role="alert" className="text-small text-attention">
             {err("consent")}

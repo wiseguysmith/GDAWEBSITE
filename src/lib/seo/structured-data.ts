@@ -15,13 +15,13 @@ export function organizationJsonLd() {
   };
 }
 
-export function websiteJsonLd() {
+export function websiteJsonLd(locale: string = "en") {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: site.name,
     url: site.url,
-    inLanguage: "en",
+    inLanguage: locale,
   };
 }
 
