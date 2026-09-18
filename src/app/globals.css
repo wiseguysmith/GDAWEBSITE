@@ -1,26 +1,227 @@
 @import "tailwindcss";
+@import "../styles/tokens.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/*
+  Map tokens into Tailwind's theme so utilities use the same names
+  (bg-navy-950, text-fg-2, border-rule, font-mono, ease-gda …).
+  Semantic colours resolve through the Section theme at runtime.
+*/
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-*: initial;
+  --color-navy-950: var(--navy-950);
+  --color-navy-900: var(--navy-900);
+  --color-navy-800: var(--navy-800);
+  --color-navy-700: var(--navy-700);
+  --color-silver: var(--silver);
+  --color-silver-dim: var(--silver-dim);
+  --color-offwhite: var(--offwhite);
+  --color-white: var(--white);
+  --color-ink: var(--ink);
+  --color-slate: var(--slate);
+  --color-signal: var(--signal);
+  --color-attention: var(--attention);
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-fg: var(--fg);
+  --color-fg-2: var(--fg-2);
+  --color-fg-3: var(--fg-3);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  --ease-gda: var(--ease);
+
+  --breakpoint-xs: 30rem; /* 480 */
+  --breakpoint-nav: 73.75rem; /* 1180 — header collapses below this */
+
+  --container-site: var(--container);
+  --container-narrow: var(--container-narrow);
+  --container-prose: var(--container-prose);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ---------- base ---------- */
+@layer base {
+  html {
+    color-scheme: light;
+    scroll-padding-top: var(--header-h);
+  }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 500;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: var(--navy-700);
+    color: var(--white);
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 3px;
+  }
+  button, input, select, textarea {
+    font: inherit;
+    color: inherit;
+  }
+  summary {
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ---------- type scale (section C) ---------- */
+@utility text-display-xl {
+  font-size: clamp(2.75rem, 6vw, 5.5rem);
+  line-height: 1.02;
+  letter-spacing: var(--track-xl);
+  font-weight: 500;
+}
+@utility text-display-l {
+  font-size: clamp(2.25rem, 4vw, 3.5rem);
+  line-height: 1.08;
+  letter-spacing: var(--track-l);
+  font-weight: 500;
+}
+@utility text-h3 {
+  font-size: clamp(1.625rem, 2.4vw, 2rem);
+  line-height: 1.2;
+  letter-spacing: var(--track-h3);
+  font-weight: 500;
+}
+@utility text-h4 {
+  font-size: clamp(1.25rem, 1.6vw, 1.375rem);
+  line-height: 1.35;
+  letter-spacing: -0.005em;
+  font-weight: 500;
+}
+@utility text-body-l {
+  font-size: clamp(1.125rem, 1.4vw, 1.25rem);
+  line-height: 1.6;
+}
+@utility text-body {
+  font-size: clamp(1rem, 1.1vw, 1.0625rem);
+  line-height: 1.65;
+}
+@utility text-small {
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+@utility text-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.3;
+  letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+@utility measure {
+  max-width: var(--measure);
+}
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- layout helpers ---------- */
+@utility container-site {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--margin);
+}
+@utility section-y {
+  padding-block: var(--section-y);
+}
+@utility section-y-tight {
+  padding-block: var(--section-y-tight);
+}
+@utility hairline-t {
+  border-top: 1px solid var(--rule);
+}
+@utility hairline-b {
+  border-bottom: 1px solid var(--rule);
+}
+
+/* ---------- motion helpers ---------- */
+@utility transition-gda {
+  transition-timing-function: var(--ease);
+  transition-duration: var(--d-standard);
+}
+
+/* Underline that draws left→right on hover/focus (TextLink). */
+@utility link-draw {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  transition: background-size var(--d-standard) var(--ease);
+  text-decoration: none;
+  padding-bottom: 1px;
+  &:hover, &:focus-visible {
+    background-size: 100% 1px;
+  }
+}
+
+/* ---------- reveals ---------- */
+/* Line-masked rise for headlines. Pure CSS: runs without JS and settles visible. */
+@keyframes gda-rise {
+  from {
+    transform: translateY(110%);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+.reveal-line {
+  display: block;
+  animation: gda-rise var(--d-reveal) var(--ease) both;
+}
+
+/* Scroll reveal. Elements are visible by default; JS sets data-reveal="pending"
+   only after hydration and flips it to "in" when the element enters view. */
+[data-reveal="pending"] {
+  opacity: 0;
+  transform: translateY(var(--reveal-y));
+}
+[data-reveal="in"] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--d-reveal) var(--ease),
+    transform var(--d-reveal) var(--ease);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-line {
+    animation: none;
+  }
+  [data-reveal="pending"] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Header glass surface — the one elevated surface in the system. */
+@utility glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
 }

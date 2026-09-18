@@ -1,0 +1,152 @@
+/*
+  GDA design tokens — the single source of truth.
+  Approved in the implementation proposal (section C).
+  Components consume these names; no literal colours, sizes or durations elsewhere.
+*/
+
+:root {
+  /* ---------- colour: primitives ---------- */
+  --navy-950: #070f1f;
+  --navy-900: #0b1730;
+  --navy-800: #13223f;
+  --navy-700: #1c2f55;
+  --silver: #c4cbd6;
+  --silver-dim: #8a94a6;
+  --offwhite: #f4f5f7;
+  --white: #ffffff;
+  --ink: #0e1420;
+  --slate: #4b5566;
+  --signal: #3f6fd0; /* links and focus rings only */
+  --attention: #8a6a1f; /* form errors only — paired with icon + text, never colour alone */
+
+  --line: rgba(14, 20, 32, 0.12);
+  --line-strong: rgba(14, 20, 32, 0.35);
+  --line-dark: rgba(255, 255, 255, 0.14);
+  --line-dark-strong: rgba(255, 255, 255, 0.4);
+
+  /* ---------- colour: semantic (set per Section theme) ---------- */
+  --bg: var(--offwhite);
+  --bg-elevated: var(--white);
+  --fg: var(--ink);
+  --fg-2: var(--slate);
+  --fg-3: var(--slate);
+  --rule: var(--line);
+  --rule-strong: var(--line-strong);
+  --btn-primary-bg: var(--navy-950);
+  --btn-primary-fg: var(--white);
+  --btn-primary-hover: var(--navy-700);
+  --btn-outline-border: var(--line-strong);
+  --btn-outline-hover: var(--ink);
+  --focus-ring: var(--signal);
+
+  /* ---------- type ---------- */
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --measure: 66ch;
+  --track-xl: -0.03em;
+  --track-l: -0.025em;
+  --track-h3: -0.015em;
+  --track-eyebrow: 0.1em;
+
+  /* ---------- space (8-point) ---------- */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --s-12: 48px;
+  --s-16: 64px;
+  --s-24: 96px;
+  --s-32: 128px;
+  --s-40: 160px;
+  --section-y: clamp(var(--s-24), 12vw, var(--s-40));
+  --section-y-tight: clamp(var(--s-16), 8vw, var(--s-24));
+  --head-gap: var(--s-12);
+
+  /* ---------- layout ---------- */
+  --container: 1320px;
+  --container-narrow: 640px;
+  --container-prose: 760px;
+  --gutter: 24px;
+  --margin: clamp(20px, 4vw, 48px);
+  --header-h: 72px;
+  --header-h-mobile: 60px;
+
+  /* ---------- shape ---------- */
+  --radius-control: 4px;
+  --control-h: 52px;
+  --control-h-sm: 40px;
+  --input-h: 56px;
+  --touch-min: 44px;
+
+  /* ---------- motion ---------- */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --d-micro: 150ms;
+  --d-standard: 350ms;
+  --d-reveal: 800ms;
+  --d-draw: 1200ms;
+  --reveal-y: 16px;
+  --line-reveal-y: 24px;
+  --stagger: 80ms;
+  --parallax-max: 6%;
+
+  /* ---------- elevation: one surface only ---------- */
+  --glass-bg: rgba(11, 23, 48, 0.72);
+  --glass-blur: 20px;
+
+  /* ---------- z ---------- */
+  --z-header: 50;
+  --z-menu: 60;
+  --z-dialog: 70;
+  --z-toast: 80;
+}
+
+/* Section grounds. `light` is the :root default (off-white). */
+[data-theme="white"] {
+  --bg: var(--white);
+  --bg-elevated: var(--offwhite);
+}
+
+[data-theme="dark"] {
+  --bg: var(--navy-900);
+  --bg-elevated: var(--navy-800);
+  --fg: var(--white);
+  --fg-2: var(--silver);
+  --fg-3: var(--silver-dim);
+  --rule: var(--line-dark);
+  --rule-strong: var(--line-dark-strong);
+  --btn-primary-bg: var(--white);
+  --btn-primary-fg: var(--navy-950);
+  --btn-primary-hover: var(--silver);
+  --btn-outline-border: rgba(255, 255, 255, 0.35);
+  --btn-outline-hover: var(--white);
+  --focus-ring: var(--white);
+}
+
+[data-theme="navy"] {
+  --bg: var(--navy-950);
+  --bg-elevated: var(--navy-900);
+  --fg: var(--white);
+  --fg-2: var(--silver);
+  --fg-3: var(--silver-dim);
+  --rule: var(--line-dark);
+  --rule-strong: var(--line-dark-strong);
+  --btn-primary-bg: var(--white);
+  --btn-primary-fg: var(--navy-950);
+  --btn-primary-hover: var(--silver);
+  --btn-outline-border: rgba(255, 255, 255, 0.35);
+  --btn-outline-hover: var(--white);
+  --focus-ring: var(--white);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --d-micro: 0ms;
+    --d-standard: 0ms;
+    --d-reveal: 0ms;
+    --d-draw: 0ms;
+    --parallax-max: 0%;
+    --stagger: 0ms;
+  }
+}
