@@ -10,7 +10,7 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer data-theme="navy" className="bg-bg text-fg" aria-labelledby="footer-heading">
+    <footer data-theme="navy" className="grain bg-bg text-fg" aria-labelledby="footer-heading">
       <h2 id="footer-heading" className="sr-only">
         Site footer
       </h2>

@@ -18,7 +18,7 @@ export default function InvestorsPage() {
     <>
       <PageHero eyebrow={page.hero.eyebrow} heading={page.hero.heading} sub={page.hero.sub} cta={page.hero.cta} />
 
-      <Section aria-label="What requesting access means">
+      <Section aria-label="What requesting access means" coordinate="§ 01 / Access" ticks>
         <Container>
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-x-(--gutter)">
             <ContentBlock block={page.means} />
@@ -37,7 +37,7 @@ export default function InvestorsPage() {
         </Container>
       </Section>
 
-      <Section theme="dark" aria-labelledby="pathway">
+      <Section theme="dark" aria-labelledby="pathway" coordinate="§ 02 / Pathway" coordinateRight="Request → Profile → Verification → Access" ticks>
         <Container>
           <SectionHead id="pathway" eyebrow={page.pathway.eyebrow} heading={page.pathway.heading} />
           <ol className="mt-(--head-gap) grid border-t border-rule md:grid-cols-2 lg:grid-cols-4">
@@ -52,7 +52,7 @@ export default function InvestorsPage() {
         </Container>
       </Section>
 
-      <Section theme="white" aria-label="The role of licensed partners">
+      <Section theme="white" aria-label="The role of licensed partners" coordinate="§ 03 / Licensed partners" ticks>
         <Container>
           <ContentBlock block={page.licensedRole} />
           <Disclosure variant="investor" className="mt-10 border-t border-rule pt-6" />

@@ -26,6 +26,8 @@ export type StepDefinition = {
   optional?: boolean;
   /** Persist this step's answers in the browser draft. Contact steps never are. */
   draft?: boolean;
+  /** Show the information-handling drawer beneath the fields (contact steps). */
+  handling?: boolean;
   /** zod schema for this step's fields; also used server-side. */
   schema: ZodTypeAny;
 };

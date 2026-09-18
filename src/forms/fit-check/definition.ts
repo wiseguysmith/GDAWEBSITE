@@ -93,6 +93,7 @@ export const fitCheckFlow: FlowDefinition = {
       id: "contact",
       title: c.steps.contact.title,
       draft: false,
+      handling: true,
       schema: stepContact,
       fields: [
         { kind: "text", name: "name", label: c.steps.contact.name, required: true, autoComplete: "name" },

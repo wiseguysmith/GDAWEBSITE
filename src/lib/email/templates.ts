@@ -79,16 +79,38 @@ function table(rows: { label: string; value: string }[]): string {
     .join("")}</table>`;
 }
 
+/** "You are here" for the Fit Check confirmation: the five stages with honest states. */
+function stagePosition(result: string | undefined): { text: string[]; html: string } {
+  const ui = content.flowUi.position;
+  const stages = content.shared.stages;
+  const currentState = result === "potential-fit" ? ui.fitPotential : ui.fitReview;
+  const rows = stages.map((s) => ({
+    label: `${String(s.index).padStart(2, "0")} ${s.name}`,
+    state: s.index === 1 ? currentState : ui.notStarted,
+    current: s.index === 1,
+  }));
+  const text = [ui.eyebrow.toUpperCase(), ...rows.map((r) => `${r.current ? "●" : "○"} ${r.label} — ${r.state}`)];
+  const html = `<p style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#4b5566;margin:24px 0 8px">${escapeHtml(ui.eyebrow)}</p><table style="width:100%;border-collapse:collapse;font-size:14px">${rows
+    .map(
+      (r) =>
+        `<tr><td style="padding:8px 12px 8px 0;border-top:1px solid rgba(14,20,32,.12);white-space:nowrap;font-weight:${r.current ? "600" : "400"}">${r.current ? "●" : "○"} ${escapeHtml(r.label)}</td><td style="padding:8px 0;border-top:1px solid rgba(14,20,32,.12);color:${r.current ? "#0e1420" : "#4b5566"}">${escapeHtml(r.state)}</td></tr>`,
+    )
+    .join("")}</table>`;
+  return { text, html };
+}
+
 /** Sent to the person who submitted. */
 export function confirmationEmail(submission: Submission): Email {
   const ref = submission.id;
   let heading: string;
   let body: string[];
+  let position: { text: string[]; html: string } | undefined;
 
   if (submission.kind === "fit-check") {
     const result = content.fitCheck.results[submission.result as keyof typeof content.fitCheck.results] ?? content.fitCheck.results["submitted-for-review"];
     heading = result.heading;
     body = [...result.paragraphs];
+    position = stagePosition(submission.result);
   } else if (submission.kind === "investor-access") {
     heading = content.investorAccess.results.received.heading;
     body = [...content.investorAccess.results.received.paragraphs];
@@ -99,8 +121,11 @@ export function confirmationEmail(submission: Submission): Email {
 
   const kindLabel = submission.kind === "fit-check" ? "Fit Check" : submission.kind === "investor-access" ? "Investor Access request" : "Enquiry";
   const subject = `${kindLabel} received — reference ${ref}`;
-  const text = [heading, "", ...body, "", `Reference: ${ref}`, "", content.legal.standing].join("\n");
-  const html = shell(heading, `${paragraphs(body)}<p style="font-family:ui-monospace,Menlo,monospace;font-size:13px;color:#4b5566;margin-top:16px">Reference ${escapeHtml(ref)}</p>`);
+  const text = [heading, "", ...body, "", `Reference: ${ref}`, ...(position ? ["", ...position.text] : []), "", content.legal.standing].join("\n");
+  const html = shell(
+    heading,
+    `${paragraphs(body)}<p style="font-family:ui-monospace,Menlo,monospace;font-size:13px;color:#4b5566;margin-top:16px">Reference ${escapeHtml(ref)}</p>${position?.html ?? ""}`,
+  );
   return { subject, text, html };
 }
 

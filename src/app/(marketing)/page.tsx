@@ -1,6 +1,7 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { content } from "@/content";
 import { footprintSentence } from "@/lib/jurisdictions/footprint";
+import { supportedJurisdictions } from "@/lib/jurisdictions/supported";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { ArrowLink } from "@/components/actions/ArrowLink";
 import { Container } from "@/components/layout/Container";
@@ -25,6 +26,14 @@ export default function HomePage() {
   const featuredCategories = partnerCategories.filter((c) => c.featured);
   const showTeam = approvedMembers(team).length > 0;
 
+  // Structural facts, derived — never typed — so the strip can only state what the content contains.
+  const facts = [
+    { value: shared.stages.length, label: home.hero.system.stages },
+    { value: shared.readinessAreas.length, label: home.hero.system.areas },
+    { value: supportedJurisdictions.length, label: home.hero.system.jurisdictions },
+    { value: partnerCategories.length, label: home.hero.system.categories },
+  ];
+
   return (
     <>
       {/* 01 — Hero */}
@@ -35,10 +44,12 @@ export default function HomePage() {
         secondary={home.hero.secondary}
         principles={home.hero.principles}
         footprint={footprintSentence()}
+        coordinate={home.hero.coordinate}
+        facts={facts}
       />
 
       {/* 02 — What GDA does */}
-      <Section aria-labelledby="what-we-do">
+      <Section aria-labelledby="what-we-do" coordinate={home.whatWeDo.coordinate} ticks>
         <Container>
           <SectionHead id="what-we-do" eyebrow={home.whatWeDo.eyebrow} heading={home.whatWeDo.heading} />
           <div className="mt-(--head-gap)">
@@ -48,7 +59,7 @@ export default function HomePage() {
       </Section>
 
       {/* 03 — How it works */}
-      <Section theme="white" aria-labelledby="how-it-works">
+      <Section theme="white" aria-labelledby="how-it-works" coordinate={home.howItWorks.coordinate} coordinateRight={home.howItWorks.coordinateRight} ticks>
         <Container>
           <SectionHead id="how-it-works" eyebrow={home.howItWorks.eyebrow} heading={home.howItWorks.heading} body={home.howItWorks.sub} />
           <div className="mt-(--head-gap)">
@@ -61,7 +72,7 @@ export default function HomePage() {
       </Section>
 
       {/* 04 — Real-world applications */}
-      <Section aria-labelledby="applications">
+      <Section aria-labelledby="applications" coordinate={home.applications.coordinate} ticks>
         <Container>
           <SectionHead id="applications" eyebrow={home.applications.eyebrow} heading={home.applications.heading} />
           <div className="mt-(--head-gap)">
@@ -74,7 +85,7 @@ export default function HomePage() {
       </Section>
 
       {/* 05 — Professional validation */}
-      <Section theme="dark" aria-labelledby="validation">
+      <Section theme="dark" aria-labelledby="validation" coordinate={home.validation.coordinate} coordinateRight={home.validation.coordinateRight} ticks>
         <Container>
           <div className="grid gap-12 lg:grid-cols-12">
             <div className="lg:col-span-5">
@@ -92,14 +103,14 @@ export default function HomePage() {
       </Section>
 
       {/* 06 — Two pathways */}
-      <Section theme="white" aria-label="Pathways">
+      <Section theme="white" aria-label="Pathways" coordinate={home.pathwaysCoordinate} ticks>
         <Container>
           <PathwaySplit project={home.pathways.project} investor={home.pathways.investor} />
         </Container>
       </Section>
 
       {/* 07 — Professional network */}
-      <Section aria-labelledby="network">
+      <Section aria-labelledby="network" coordinate={home.network.coordinate} ticks>
         <Container>
           <SectionHead id="network" eyebrow={home.network.eyebrow} heading={home.network.heading} body={home.network.body} />
           <div className="mt-(--head-gap)">
@@ -113,7 +124,7 @@ export default function HomePage() {
 
       {/* 08 — Team (gated on real content) */}
       {showTeam ? (
-        <Section theme="white" aria-labelledby="team">
+        <Section theme="white" aria-labelledby="team" coordinate={home.team.coordinate} ticks>
           <Container>
             <SectionHead id="team" eyebrow={home.team.eyebrow} heading={home.team.heading} />
             <div className="mt-(--head-gap)">

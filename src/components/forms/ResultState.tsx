@@ -4,6 +4,7 @@ import Link from "next/link";
 import { content } from "@/content";
 import type { FlowDefinition } from "@/forms/types";
 import { Disclosure } from "@/components/content/Disclosure";
+import { StagePosition } from "@/components/content/StagePosition";
 import { Eyebrow } from "@/components/typography/Eyebrow";
 import { Arrow } from "@/components/actions/ArrowLink";
 
@@ -13,11 +14,13 @@ type ResultStateProps = {
   headingRef: React.RefObject<HTMLHeadingElement | null>;
 };
 
-/** Renders the result copy for the returned key, verbatim from content, with the reference. */
+/** Renders the result copy for the returned key, verbatim from content, with the reference and the stage position. */
 export function ResultState({ flow, outcome, headingRef }: ResultStateProps) {
   const ui = content.flowUi;
   const keys = Object.keys(flow.results);
   const result = flow.results[outcome.result ?? ""] ?? flow.results[keys[keys.length - 1]];
+  const showPosition = flow.kind === "fit-check";
+  const positionState = outcome.result === "potential-fit" ? ui.position.fitPotential : ui.position.fitReview;
 
   return (
     <section aria-labelledby="flow-heading" className="flex flex-col gap-8">
@@ -39,6 +42,7 @@ export function ResultState({ flow, outcome, headingRef }: ResultStateProps) {
         <span className="font-mono text-h4 tabular text-fg">{outcome.id}</span>
         <span className="text-small text-fg-2">{outcome.emailed ? flow.afterResult.emailNote : flow.afterResult.keepNote}</span>
       </div>
+      {showPosition ? <StagePosition stages={content.shared.stages} current={1} currentState={positionState} /> : null}
       <Disclosure variant={flow.intro.disclosure} />
       <ul className="flex flex-col gap-3">
         {flow.afterResult.links.map((l) => (

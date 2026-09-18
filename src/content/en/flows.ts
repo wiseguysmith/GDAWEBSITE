@@ -35,6 +35,36 @@ export const flowUi = {
   },
   privacyNote: "How this information is handled",
   consentRequired: "Please confirm consent to continue.",
+  /** "You are here" module on result screens (design direction §02). */
+  position: {
+    eyebrow: "Your position in the process",
+    stageOf: (current: number, total: number) => `Stage ${String(current).padStart(2, "0")} of ${String(total).padStart(2, "0")}`,
+    notStarted: "Not started",
+    fitPotential: "Preliminary indication given · pending GDA review",
+    fitReview: "Received · pending GDA review",
+  },
+};
+
+/** Inline information-handling drawer on contact steps (design direction §04). Values come from config/retention. */
+export const handling = {
+  summary: "How this information is handled",
+  rows: {
+    collected: { label: "Collected", body: "Only the answers on this form and the contact details you enter. No identity documents." },
+    sentTo: {
+      label: "Sent to",
+      body: "GDA's submission record and the team inbox that handles enquiries, over an encrypted connection.",
+    },
+    seenBy: {
+      label: "Seen by",
+      body: "GDA team members who handle enquiries. Partners only if you proceed, and only for their scope.",
+    },
+    keptFor: {
+      label: "Kept for",
+      body: (years: number, draftDays: number) =>
+        `Up to ${years} years. Your browser draft never includes contact details and expires after ${draftDays} days.`,
+    },
+  },
+  more: "Full details on the Security page",
 };
 
 export const fitCheck = {

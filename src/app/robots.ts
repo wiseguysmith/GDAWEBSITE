@@ -13,7 +13,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/evaluate", "/investors/access", ...features.reservedRoutes],
+        disallow: ["/api/", "/dev/", "/evaluate", "/investors/access", ...features.reservedRoutes],
       },
     ],
     sitemap: new URL("/sitemap.xml", site.url).toString(),

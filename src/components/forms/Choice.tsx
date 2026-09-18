@@ -60,7 +60,13 @@ export const Choice = forwardRef<HTMLInputElement, ChoiceProps>(function Choice(
                 type === "radio" ? "rounded-full" : "rounded-[3px]",
               )}
             >
-              <span className={cn("size-[6px] bg-bg", type === "radio" ? "rounded-full" : "")} />
+              {type === "radio" ? (
+                <span className="size-[6px] rounded-full bg-bg" />
+              ) : (
+                <svg viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="var(--bg)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path className="tick-path" d="M2 6l3 3 5-6" />
+                </svg>
+              )}
             </span>
             <span>{opt.label}</span>
           </label>

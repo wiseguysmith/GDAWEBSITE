@@ -12,7 +12,7 @@ export function listNames(names: readonly string[]): string {
  * jurisdiction never requires touching copy.
  */
 export function footprintSentence(): string {
-  return `Currently supporting projects across ${listNames(supportedJurisdictions.map((j) => j.name))}.`;
+  return `Currently supporting projects across ${listNames(supportedJurisdictions.map((j) => j.inSentence ?? j.name))}.`;
 }
 
 export const footprintQualifier =

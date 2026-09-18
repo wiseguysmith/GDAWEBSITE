@@ -21,7 +21,7 @@ export default function HowItWorksPage() {
     <>
       <PageHero eyebrow={page.hero.eyebrow} heading={page.hero.heading} sub={page.hero.sub} />
 
-      <Section aria-labelledby="pillars" id="evaluate">
+      <Section aria-labelledby="pillars" id="evaluate" coordinate="§ 01 / Three pillars" ticks>
         <Container>
           <SectionHead id="pillars" eyebrow={page.pillarsIntro.eyebrow} heading={page.pillarsIntro.heading} body={page.pillarsIntro.body} />
           <div className="mt-(--head-gap)">
@@ -30,7 +30,7 @@ export default function HowItWorksPage() {
         </Container>
       </Section>
 
-      <Section theme="white" aria-labelledby="stages" id="structure">
+      <Section theme="white" aria-labelledby="stages" id="structure" coordinate="§ 02 / Five stages" coordinateRight="Fit → Ready → Validated → Structured → Activated" ticks>
         <Container>
           <SectionHead id="stages" eyebrow={page.stagesIntro.eyebrow} heading={page.stagesIntro.heading} body={page.stagesIntro.body} />
           <div className="mt-(--head-gap)">
@@ -39,7 +39,7 @@ export default function HowItWorksPage() {
         </Container>
       </Section>
 
-      <Section theme="dark" aria-labelledby="responsibilities" id="activate">
+      <Section theme="dark" aria-labelledby="responsibilities" id="activate" coordinate="§ 03 / Responsibility model" ticks>
         <Container>
           <SectionHead id="responsibilities" eyebrow={page.responsibilities.eyebrow} heading={page.responsibilities.heading} body={page.responsibilities.body} />
           <div className="mt-(--head-gap)">
@@ -48,7 +48,7 @@ export default function HowItWorksPage() {
         </Container>
       </Section>
 
-      <Section aria-label="What GDA does and does not do">
+      <Section aria-label="What GDA does and does not do" coordinate="§ 04 / Scope" ticks>
         <Container>
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-x-(--gutter)">
             <ContentBlock block={page.does} />
@@ -57,7 +57,7 @@ export default function HowItWorksPage() {
         </Container>
       </Section>
 
-      <Section theme="white" aria-labelledby="faq">
+      <Section theme="white" aria-labelledby="faq" coordinate="§ 05 / Questions" ticks>
         <Container>
           <div className="grid gap-12 lg:grid-cols-12">
             <div className="lg:col-span-4">
