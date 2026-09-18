@@ -25,10 +25,12 @@ type NativeProps = BaseProps & { href?: undefined } & Omit<ComponentPropsWithout
 export type ButtonProps = LinkProps | NativeProps;
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-(--radius-control) font-medium tracking-[0.005em] whitespace-nowrap select-none transition-[background-color,color,border-color] duration-(--d-standard) ease-gda disabled:opacity-60 disabled:cursor-not-allowed";
+  "inline-flex items-center justify-center gap-2 rounded-(--radius-control) font-medium tracking-[0.005em] whitespace-nowrap select-none transition-[background-color,color,border-color,box-shadow] duration-(--d-standard) ease-gda disabled:opacity-60 disabled:cursor-not-allowed";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-(--btn-primary-bg) text-(--btn-primary-fg) border border-(--btn-primary-bg) hover:bg-(--btn-primary-hover) hover:border-(--btn-primary-hover)",
+  // Primary carries a hairline of light on its top edge that brightens on hover — a machined key, not a flat fill (design direction §07).
+  primary:
+    "bg-(--btn-primary-bg) text-(--btn-primary-fg) border border-(--btn-primary-bg) shadow-[inset_0_1px_0_var(--edge-light)] hover:bg-(--btn-primary-hover) hover:border-(--btn-primary-hover) hover:shadow-[inset_0_1px_0_var(--edge-light-hover),0_0_0_4px_var(--edge-ring)]",
   secondary: "bg-transparent text-fg border border-(--btn-outline-border) hover:border-(--btn-outline-hover)",
   ghost: "bg-transparent text-fg border border-transparent hover:text-fg-2 px-0!",
 };

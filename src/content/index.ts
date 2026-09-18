@@ -8,7 +8,7 @@ import { about } from "./en/about";
 import { accessibility } from "./en/accessibility";
 import { contact } from "./en/contact";
 import { disclosures } from "./en/disclosures";
-import { fitCheck, flowUi, investorAccess } from "./en/flows";
+import { fitCheck, flowUi, handling, investorAccess } from "./en/flows";
 import { home } from "./en/home";
 import { howItWorks } from "./en/how-it-works";
 import { investors } from "./en/investors";
@@ -43,6 +43,7 @@ const en = {
   terms,
   accessibility,
   flowUi,
+  handling,
   fitCheck,
   investorAccess,
 };

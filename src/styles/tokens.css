@@ -95,6 +95,14 @@
   --glass-bg: rgba(11, 23, 48, 0.72);
   --glass-blur: 20px;
 
+  /* ---------- material ---------- */
+  /* Fine grain on navy grounds so the surface reads as material, not pixels. Set to 0 to disable. */
+  --grain-opacity: 0.045;
+  /* Hairline of light on the top edge of primary buttons (design direction §07). */
+  --edge-light: rgba(255, 255, 255, 0.18);
+  --edge-light-hover: rgba(255, 255, 255, 0.35);
+  --edge-ring: rgba(11, 23, 48, 0.08);
+
   /* ---------- z ---------- */
   --z-header: 50;
   --z-menu: 60;
@@ -122,6 +130,9 @@
   --btn-outline-border: rgba(255, 255, 255, 0.35);
   --btn-outline-hover: var(--white);
   --focus-ring: var(--white);
+  --edge-light: rgba(255, 255, 255, 0.6);
+  --edge-light-hover: rgba(255, 255, 255, 0.9);
+  --edge-ring: rgba(255, 255, 255, 0.12);
 }
 
 [data-theme="navy"] {
@@ -138,6 +149,9 @@
   --btn-outline-border: rgba(255, 255, 255, 0.35);
   --btn-outline-hover: var(--white);
   --focus-ring: var(--white);
+  --edge-light: rgba(255, 255, 255, 0.6);
+  --edge-light-hover: rgba(255, 255, 255, 0.9);
+  --edge-ring: rgba(255, 255, 255, 0.12);
 }
 
 @media (prefers-reduced-motion: reduce) {

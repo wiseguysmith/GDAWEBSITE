@@ -22,7 +22,7 @@ export default function AboutPage() {
     <>
       <PageHero eyebrow={page.hero.eyebrow} heading={page.hero.lines} sub={page.hero.sub} />
 
-      <Section aria-label="Mission and purpose">
+      <Section aria-label="Mission and purpose" coordinate="§ 01 / Mission" ticks>
         <Container>
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-x-(--gutter)">
             <ContentBlock block={page.mission} />
@@ -31,7 +31,7 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      <Section theme="white" aria-labelledby="principles">
+      <Section theme="white" aria-labelledby="principles" coordinate="§ 02 / Principles" ticks>
         <Container>
           <SectionHead id="principles" eyebrow={page.principlesIntro.eyebrow} heading={page.principlesIntro.heading} />
           <div className="mt-(--head-gap)">
@@ -40,7 +40,7 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      <Section theme="dark" aria-label="Network philosophy and jurisdiction-aware model">
+      <Section theme="dark" aria-label="Network philosophy and jurisdiction-aware model" coordinate="§ 03 / Model" ticks>
         <Container>
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-x-(--gutter)">
             <ContentBlock block={page.network} />
@@ -49,7 +49,7 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      <Section aria-labelledby="footprint">
+      <Section aria-labelledby="footprint" coordinate="§ 04 / Footprint" ticks>
         <Container>
           <SectionHead id="footprint" eyebrow={page.footprint.eyebrow} heading={page.footprint.heading} body={page.footprint.body} />
           <div className="mt-(--head-gap)">
@@ -63,7 +63,7 @@ export default function AboutPage() {
       </Section>
 
       {showTeam ? (
-        <Section theme="white" aria-labelledby="team">
+        <Section theme="white" aria-labelledby="team" coordinate="§ 05 / Team" ticks>
           <Container>
             <SectionHead id="team" eyebrow={page.team.eyebrow} heading={page.team.heading} />
             <div className="mt-(--head-gap)">
@@ -73,7 +73,7 @@ export default function AboutPage() {
         </Section>
       ) : null}
 
-      <Section theme="navy" aria-labelledby="contact">
+      <Section theme="navy" aria-labelledby="contact" coordinate="§ 06 / Contact" ticks>
         <Container>
           <div className="grid gap-10 lg:grid-cols-12">
             <div className="lg:col-span-8">

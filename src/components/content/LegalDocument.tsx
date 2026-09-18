@@ -1,7 +1,59 @@
 import type { LegalDocument as LegalDocumentType } from "@/content/types";
+import { cn } from "@/lib/cn";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { PageHero } from "./PageHero";
+
+type Controls = NonNullable<LegalDocumentType["controls"]>;
+
+/**
+ * Controls at a glance (design direction §05): every control with its state,
+ * shown by word and by mark — never colour alone. "Not claimed" rows are as
+ * present as "Implemented" rows.
+ */
+function ControlsMatrix({ controls }: { controls: Controls }) {
+  return (
+    <section aria-labelledby="controls-heading" className="mt-10">
+      <h2 id="controls-heading" className="text-h4 text-fg">
+        {controls.heading}
+      </h2>
+      <div className="mt-5 overflow-x-auto">
+        <table className="w-full border-collapse text-small">
+          <thead>
+            <tr className="text-left">
+              <th scope="col" className="border-b border-fg pr-4 pb-3 text-eyebrow font-medium text-fg-3">
+                {controls.columns.control}
+              </th>
+              <th scope="col" className="border-b border-fg pr-4 pb-3 text-eyebrow font-medium text-fg-3">
+                {controls.columns.state}
+              </th>
+              <th scope="col" className="border-b border-fg pb-3 text-eyebrow font-medium text-fg-3">
+                {controls.columns.meaning}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {controls.items.map((item) => {
+              const claimed = item.state !== "not-claimed";
+              return (
+                <tr key={item.control} className="align-top">
+                  <td className="border-b border-rule py-3.5 pr-4 font-semibold text-fg">{item.control}</td>
+                  <td className="border-b border-rule py-3.5 pr-4 whitespace-nowrap">
+                    <span className={cn("inline-flex items-center gap-2 text-eyebrow", claimed ? "text-fg" : "text-fg-3")}>
+                      <span aria-hidden="true" className={cn("size-[10px] rounded-full border", claimed ? "border-fg bg-fg" : "border-fg-3")} />
+                      {controls.states[item.state]}
+                    </span>
+                  </td>
+                  <td className="border-b border-rule py-3.5 text-fg-2">{item.meaning}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
 
 type LegalDocumentProps = {
   doc: LegalDocumentType;
@@ -24,6 +76,7 @@ export function LegalDocument({ doc, eyebrow }: LegalDocumentProps) {
             <span>Version {doc.version}</span>
             <span>Updated {formatDate(doc.updatedAt)}</span>
           </p>
+          {doc.controls ? <ControlsMatrix controls={doc.controls} /> : null}
           <div className="mt-10 flex flex-col gap-10">
             {doc.sections.map((section) => (
               <section key={section.heading} className="flex flex-col gap-3">

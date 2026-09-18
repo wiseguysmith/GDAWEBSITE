@@ -6,10 +6,12 @@
 export type SupportedJurisdiction = {
   code: string; // ISO-3166 alpha-2
   name: string;
+  /** Form used inside a sentence where it differs from the name (e.g. "the United States"). */
+  inSentence?: string;
 };
 
 export const supportedJurisdictions: readonly SupportedJurisdiction[] = [
-  { code: "US", name: "United States" },
+  { code: "US", name: "United States", inSentence: "the United States" },
   { code: "SV", name: "El Salvador" },
   { code: "CR", name: "Costa Rica" },
   { code: "PA", name: "Panama" },

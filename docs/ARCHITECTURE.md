@@ -51,6 +51,18 @@ scripts/check-placeholders.mjs   fails production builds if placeholders remain
 - Hairlines, not cards. Bordered containers only in the pathway split, team grid and form controls. Radius 4px on controls, 0 elsewhere. One glass surface: the scrolled header.
 - Motion: one easing, four durations, all in tokens. Reveals are visible at rest (CSS keyframes for headlines; `data-reveal` only added after hydration for scroll reveals). `prefers-reduced-motion` zeroes every duration.
 
+### Design direction v2 — instrumentation set
+
+Implemented on top of the launch system (see the design-direction document):
+
+- **Hero as instrument** — `HeroGrid` draws its lines on mount (`.grid-line` / `.drawn`); registration marks and a `§` coordinate frame the sheet; `SystemStrip` settles four structural counts derived from the content arrays (never typed). Grain on navy grounds via the `grain` utility, tuned by `--grain-opacity` (set to 0 to disable).
+- **Stage position** — `StagePosition` shows the five-stage line with the honest state of every stage; used on the Fit Check result screen and in the confirmation email.
+- **Information drawer** — `InfoDrawer` (native `<details>`) on both contact steps and the contact form, values from `config/retention.ts`.
+- **Controls matrix** — `LegalDocument.controls` renders the Security page's implemented / not-claimed table.
+- **Blueprint coordinates** — `Section` accepts `coordinate`, `coordinateRight` and `ticks` (desktop only).
+- **Controls with weight** — primary buttons carry an edge light (`--edge-light`); text controls sit in a `.focus-draw` wrapper; checkbox ticks draw (`.tick-path`).
+- `/dev/components` is a development-only gallery (404 in production) for reviewing components on both grounds.
+
 ## Flows
 
 `FlowShell` renders any `FlowDefinition` (`src/forms/*/definition.ts`): intro → one question per screen → review → result. Each step has its own zod schema (used by react-hook-form via `zodResolver` and again on the server). Focus moves to the heading on every screen change; progress is announced via a live region; Enter on a radio advances.

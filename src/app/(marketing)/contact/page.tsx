@@ -16,7 +16,7 @@ export default function ContactPage() {
   return (
     <>
       <PageHero eyebrow={page.hero.eyebrow} heading={page.hero.heading} sub={page.hero.sub} />
-      <Section theme="white" aria-label="Contact form">
+      <Section theme="white" aria-label="Contact form" coordinate="§ 01 / Enquiry" ticks>
         <Container>
           <div className="grid gap-16 lg:grid-cols-12">
             <div className="lg:col-span-7">

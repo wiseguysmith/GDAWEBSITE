@@ -13,8 +13,55 @@ export const security: LegalDocument = {
   title: "Information handling",
   intro:
     "This page describes how information submitted through this website is handled today. It states what is implemented, not what is planned, and it makes no claims about certifications or controls that do not exist.",
-  version: "1.0",
+  version: "1.1",
   updatedAt: "2026-09-18",
+  controls: {
+    heading: "Controls at a glance",
+    columns: { control: "Control", state: "State", meaning: "What it means" },
+    states: {
+      implemented: "Implemented",
+      "implemented-manual": "Implemented — manual",
+      "not-claimed": "Not claimed",
+    },
+    items: [
+      { control: "Encrypted transport (HTTPS)", state: "implemented", meaning: "All traffic, including form submissions, travels over TLS." },
+      {
+        control: "Server-side schema validation",
+        state: "implemented",
+        meaning: "Every submission is validated against a strict schema before anything is stored.",
+      },
+      {
+        control: "Rate limiting and bot screening",
+        state: "implemented",
+        meaning: "Per-connection and per-email limits; hidden-field and timing checks; Cloudflare Turnstile where enabled.",
+      },
+      {
+        control: "No verification documents collected",
+        state: "implemented",
+        meaning: "The website never asks for identity, corporate formation or source-of-funds files.",
+      },
+      {
+        control: "Security headers (CSP, HSTS, framing)",
+        state: "implemented",
+        meaning: "Standard browser protections against injection and clickjacking.",
+      },
+      {
+        control: "Defined retention",
+        state: "implemented-manual",
+        meaning: `Periods are defined (submissions up to ${Math.round(retention.submissionsDays / 365)} years) and applied by periodic review; automation is planned.`,
+      },
+      {
+        control: "Independent security certification",
+        state: "not-claimed",
+        meaning: "GDA does not hold SOC 2, ISO 27001 or similar for this website and does not say otherwise.",
+      },
+      {
+        control: "Encryption at rest, described",
+        state: "not-claimed",
+        meaning: "Storage is provided by named processors; GDA does not describe controls it has not verified.",
+      },
+    ],
+  },
   sections: [
     {
       heading: "What the website collects",

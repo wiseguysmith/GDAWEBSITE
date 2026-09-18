@@ -16,6 +16,7 @@ import { Disclosure } from "@/components/content/Disclosure";
 import { Eyebrow } from "@/components/typography/Eyebrow";
 import { clearDraft, saveDraft, useDraft } from "./draft";
 import { FlowProgress } from "./FlowProgress";
+import { InfoDrawer } from "./InfoDrawer";
 import { ResultState } from "./ResultState";
 import { ReviewSummary } from "./ReviewSummary";
 import { StepFields } from "./StepFields";
@@ -358,6 +359,7 @@ function StepForm({ step, index, defaults, headingRef, onSubmit, onBack, onClear
 
       <StepFields stepTitle={step.title} fields={step.fields} register={register} watch={watch} errors={errors} />
 
+      {step.handling ? <InfoDrawer /> : null}
       {step.note ? <p className="border-l-2 border-rule-strong pl-5 text-small text-fg-2">{step.note}</p> : null}
 
       <div className="sticky bottom-0 -mx-(--margin) mt-2 flex flex-col-reverse gap-3 border-t border-rule bg-bg px-(--margin) py-4 pb-[calc(var(--s-4)+env(safe-area-inset-bottom,0px))] xs:static xs:mx-0 xs:flex-row xs:items-center xs:justify-between xs:border-0 xs:bg-transparent xs:px-0 xs:py-0">

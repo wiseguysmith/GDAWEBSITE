@@ -8,21 +8,28 @@ import { controlClass } from "./Field";
 
 type InputProps = ComponentPropsWithoutRef<"input"> & { invalid?: boolean };
 
+/** Text input inside a focus-draw wrapper: an underline draws across on focus (design direction §07). */
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input({ invalid, className, ...rest }, ref) {
-  return <input ref={ref} aria-invalid={invalid || undefined} className={cn(controlClass, className)} {...rest} />;
+  return (
+    <div className="focus-draw">
+      <input ref={ref} aria-invalid={invalid || undefined} className={cn(controlClass, className)} {...rest} />
+    </div>
+  );
 });
 
 type TextareaProps = ComponentPropsWithoutRef<"textarea"> & { invalid?: boolean };
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea({ invalid, className, ...rest }, ref) {
   return (
-    <textarea
-      ref={ref}
-      aria-invalid={invalid || undefined}
-      rows={5}
-      className={cn(controlClass, "h-auto min-h-[140px] resize-y py-3 leading-relaxed", className)}
-      {...rest}
-    />
+    <div className="focus-draw">
+      <textarea
+        ref={ref}
+        aria-invalid={invalid || undefined}
+        rows={5}
+        className={cn(controlClass, "h-auto min-h-[140px] resize-y py-3 leading-relaxed", className)}
+        {...rest}
+      />
+    </div>
   );
 });
 
@@ -34,7 +41,7 @@ type SelectProps = ComponentPropsWithoutRef<"select"> & {
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select({ invalid, options, placeholder, className, ...rest }, ref) {
   return (
-    <div className="relative">
+    <div className="focus-draw">
       <select ref={ref} aria-invalid={invalid || undefined} className={cn(controlClass, "appearance-none pr-10", className)} defaultValue="" {...rest}>
         <option value="" disabled={rest.required}>
           {placeholder ?? "Select…"}
@@ -58,7 +65,7 @@ type CountrySelectProps = ComponentPropsWithoutRef<"select"> & { invalid?: boole
  */
 export const CountrySelect = forwardRef<HTMLSelectElement, CountrySelectProps>(function CountrySelect({ invalid, placeholder, className, ...rest }, ref) {
   return (
-    <div className="relative">
+    <div className="focus-draw">
       <select ref={ref} aria-invalid={invalid || undefined} className={cn(controlClass, "appearance-none pr-10", className)} defaultValue="" autoComplete="country" {...rest}>
         <option value="" disabled={rest.required}>
           {placeholder ?? "Select a country…"}
@@ -95,7 +102,7 @@ function Chevron() {
 
 type CheckboxProps = ComponentPropsWithoutRef<"input"> & { invalid?: boolean; label: string };
 
-/** Consent checkbox: unchecked by default, label is the full consent text. */
+/** Consent checkbox: unchecked by default, label is the full consent text; the tick draws itself. */
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Checkbox({ invalid, label, id, className, ...rest }, ref) {
   return (
     <label htmlFor={id} className={cn("flex min-h-(--touch-min) cursor-pointer items-start gap-3 text-small text-fg-2", className)}>
@@ -105,7 +112,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
         className="mt-[2px] flex size-[18px] shrink-0 items-center justify-center rounded-[3px] border border-fg-3 transition-colors duration-(--d-micro) peer-checked:border-fg peer-checked:bg-fg peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-(--focus-ring) peer-aria-[invalid=true]:border-attention"
       >
         <svg viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="var(--bg)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M2 6l3 3 5-6" />
+          <path className="tick-path" d="M2 6l3 3 5-6" />
         </svg>
       </span>
       <span>{label}</span>

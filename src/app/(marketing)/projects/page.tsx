@@ -18,7 +18,7 @@ export default function ProjectsPage() {
     <>
       <PageHero eyebrow={page.hero.eyebrow} heading={page.hero.heading} sub={page.hero.sub} cta={page.hero.cta} />
 
-      <Section aria-label="Who GDA works with">
+      <Section aria-label="Who GDA works with" coordinate="§ 01 / Who" ticks>
         <Container>
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-x-(--gutter)">
             <ContentBlock block={page.whoFor} />
@@ -27,7 +27,7 @@ export default function ProjectsPage() {
         </Container>
       </Section>
 
-      <Section theme="white" aria-labelledby="categories">
+      <Section theme="white" aria-labelledby="categories" coordinate="§ 02 / Categories" ticks>
         <Container>
           <SectionHead id="categories" eyebrow={page.categories.eyebrow} heading={page.categories.heading} body={page.categories.body} />
           <div className="mt-(--head-gap)">
@@ -36,7 +36,7 @@ export default function ProjectsPage() {
         </Container>
       </Section>
 
-      <Section theme="dark" aria-labelledby="readiness">
+      <Section theme="dark" aria-labelledby="readiness" coordinate="§ 03 / Readiness" coordinateRight="13 areas · not every area applies to every project" ticks>
         <Container>
           <SectionHead id="readiness" eyebrow={page.readiness.eyebrow} heading={page.readiness.heading} body={page.readiness.body} />
           <ol className="mt-(--head-gap) grid border-t border-rule sm:grid-cols-2 lg:grid-cols-3">
@@ -50,7 +50,7 @@ export default function ProjectsPage() {
         </Container>
       </Section>
 
-      <Section aria-labelledby="prepare">
+      <Section aria-labelledby="prepare" coordinate="§ 04 / Prepare" ticks>
         <Container>
           <div className="grid gap-12 lg:grid-cols-12">
             <div className="lg:col-span-5">

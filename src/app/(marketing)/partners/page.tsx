@@ -19,7 +19,7 @@ export default function PartnersPage() {
     <>
       <PageHero eyebrow={page.hero.eyebrow} heading={page.hero.heading} sub={page.hero.sub} />
 
-      <Section aria-labelledby="model">
+      <Section aria-labelledby="model" coordinate="§ 01 / The model" ticks>
         <Container>
           <SectionHead id="model" eyebrow={page.model.eyebrow} heading={page.model.heading} body={page.model.body} />
           <div className="mt-(--head-gap)">
@@ -28,7 +28,7 @@ export default function PartnersPage() {
         </Container>
       </Section>
 
-      <Section theme="white" aria-labelledby="categories">
+      <Section theme="white" aria-labelledby="categories" coordinate="§ 02 / Categories" ticks>
         <Container>
           <SectionHead id="categories" eyebrow={page.categories.eyebrow} heading={page.categories.heading} body={page.categories.body} />
           <div className="mt-(--head-gap)">
@@ -37,7 +37,7 @@ export default function PartnersPage() {
         </Container>
       </Section>
 
-      <Section theme="dark" aria-label="How partners are selected and engaged">
+      <Section theme="dark" aria-label="How partners are selected and engaged" coordinate="§ 03 / Engagement" ticks>
         <Container>
           <div className="grid gap-12 lg:grid-cols-3 lg:gap-x-(--gutter)">
             <ContentBlock block={page.selection} as="h3" />

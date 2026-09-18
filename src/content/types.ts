@@ -87,6 +87,14 @@ export type LegalSection = {
   bullets?: string[];
 };
 
+export type ControlState = "implemented" | "implemented-manual" | "not-claimed";
+
+export type SecurityControl = {
+  control: string;
+  state: ControlState;
+  meaning: string;
+};
+
 export type LegalDocument = {
   meta: Meta;
   title: string;
@@ -94,6 +102,13 @@ export type LegalDocument = {
   version: string;
   updatedAt: string; // ISO date
   sections: LegalSection[];
+  /** Optional controls matrix rendered before the sections (Security page). */
+  controls?: {
+    heading: string;
+    columns: { control: string; state: string; meaning: string };
+    states: Record<ControlState, string>;
+    items: SecurityControl[];
+  };
 };
 
 export type Pathway = {

@@ -14,6 +14,7 @@ import { Disclosure } from "@/components/content/Disclosure";
 import { Eyebrow } from "@/components/typography/Eyebrow";
 import { Checkbox, Input, Select, Textarea } from "./Controls";
 import { Field, describedBy } from "./Field";
+import { InfoDrawer } from "./InfoDrawer";
 import { Turnstile } from "./Turnstile";
 
 type Phase = "idle" | "submitting" | "done" | "error";
@@ -119,6 +120,7 @@ export function ContactForm() {
       <Field id="c-message" label={c.form.message} help={c.form.messageHelp} error={err("message")} required>
         <Textarea id="c-message" {...register("message")} maxLength={3000} required invalid={Boolean(err("message"))} aria-describedby={describedBy("c-message", c.form.messageHelp, err("message"))} />
       </Field>
+      <InfoDrawer />
       <div className="flex flex-col gap-2 border-t border-rule pt-6">
         <Checkbox id="c-consent" {...register("consent")} label={content.legal.consent} invalid={Boolean(err("consent"))} aria-describedby={err("consent") ? "c-consent-error" : undefined} />
         {err("consent") ? (
