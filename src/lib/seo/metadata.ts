@@ -7,13 +7,15 @@ export type PageMeta = {
   path: string;
   /** Flows and confirmation states are never indexed (handoff §29). */
   noindex?: boolean;
+  /** Use the title as-is instead of the "%s — Site" template (homepage). */
+  absoluteTitle?: boolean;
 };
 
 /** Builds page metadata from a content module's `meta` block. */
 export function pageMetadata(meta: PageMeta): Metadata {
   const url = new URL(meta.path, site.url).toString();
   return {
-    title: meta.title,
+    title: meta.absoluteTitle ? { absolute: meta.title } : meta.title,
     description: meta.description,
     alternates: { canonical: url },
     openGraph: {

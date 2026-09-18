@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useMemo } from "react";
@@ -33,7 +33,7 @@ export function HeroGrid() {
     <motion.div
       aria-hidden="true"
       style={reduced ? undefined : { y }}
-      className="pointer-events-none absolute -right-[8%] top-[12%] hidden h-[76%] w-[56%] opacity-35 lg:block"
+      className="pointer-events-none absolute -right-[8%] top-[8%] hidden h-[64%] w-[56%] opacity-35 lg:block"
     >
       <svg viewBox="0 0 600 500" preserveAspectRatio="none" className="h-full w-full">
         {lines.map((l, i) => (

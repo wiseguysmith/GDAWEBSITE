@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { content } from "@/content";
 import { footprintSentence } from "@/lib/jurisdictions/footprint";
 import { pageMetadata } from "@/lib/seo/metadata";
@@ -19,7 +19,7 @@ import { ValidationMatrix } from "@/components/content/ValidationMatrix";
 
 const { home, shared, partnerCategories, partnerLogos, team } = content;
 
-export const metadata: Metadata = pageMetadata({ ...home.meta, path: "/" });
+export const metadata: Metadata = pageMetadata({ ...home.meta, path: "/", absoluteTitle: true });
 
 export default function HomePage() {
   const featuredCategories = partnerCategories.filter((c) => c.featured);

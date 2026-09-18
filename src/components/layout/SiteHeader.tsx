@@ -97,12 +97,16 @@ export function SiteHeader({ tone = "dark", minimal = false }: SiteHeaderProps) 
           <div className="flex items-center gap-3">
             {!minimal ? (
               <>
-                <Button href={nav.cta.href} event={nav.cta.event} size="small" className="hidden md:inline-flex">
-                  {nav.cta.label}
-                </Button>
-                <Button href={nav.cta.href} event={nav.cta.event} size="small" className="md:hidden">
-                  {nav.ctaShort}
-                </Button>
+                <span className="hidden md:inline-flex">
+                  <Button href={nav.cta.href} event={nav.cta.event} size="small">
+                    {nav.cta.label}
+                  </Button>
+                </span>
+                <span className="inline-flex md:hidden">
+                  <Button href={nav.cta.href} event={nav.cta.event} size="small">
+                    {nav.ctaShort}
+                  </Button>
+                </span>
                 <button
                   ref={toggleRef}
                   type="button"
