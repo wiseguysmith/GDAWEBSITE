@@ -2,7 +2,7 @@
 
 Real-world value. Digital infrastructure. Global access.
 
-The public website for Global Digital Access (GDA): homepage, How It Works, Projects, Investors, Partners, About, Contact, the Project Fit Check and Investor Access flows, and the legal/supporting pages.
+The public website for Global Digital Access (GDA): homepage, How It Works, Projects, Investors, Partners, About, Contact, the Project Fit Check and Investor Access flows, and the legal/supporting pages — in English (root URLs) and Spanish (`/es`). Visitors whose browser prefers Spanish are sent to `/es` on first visit; the language switcher remembers an explicit choice.
 
 ## Run locally
 

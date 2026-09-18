@@ -5,9 +5,10 @@ type ProcessStageProps = {
   stage: Stage;
   reached: boolean;
   detailed?: boolean;
+  responsibleLabel?: string;
 };
 
-export function ProcessStage({ stage, reached, detailed = false }: ProcessStageProps) {
+export function ProcessStage({ stage, reached, detailed = false, responsibleLabel = "Responsible" }: ProcessStageProps) {
   const id = `stage-${stage.name.toLowerCase()}`;
   return (
     <li
@@ -30,7 +31,7 @@ export function ProcessStage({ stage, reached, detailed = false }: ProcessStageP
         <p className="text-body text-fg-2">{stage.body}</p>
         {detailed ? (
           <p className="text-small text-fg-3">
-            <span className="text-eyebrow mr-2">Responsible</span>
+            <span className="text-eyebrow mr-2">{responsibleLabel}</span>
             {stage.responsible}
           </p>
         ) : null}

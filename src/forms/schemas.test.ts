@@ -87,6 +87,9 @@ describe("investorAccessSchema", () => {
 describe("contactSchema", () => {
   it("requires a message of reasonable length", () => {
     expect(contactSchema.safeParse({ type: "general", name: "A", organisation: "", email: "a@b.co", message: "hi", consent: true }).success).toBe(false);
-    expect(contactSchema.safeParse({ type: "partner", name: "A", organisation: "", email: "a@b.co", message: "We are a law firm in Panama.", consent: true }).success).toBe(true);
+    expect(
+      contactSchema.safeParse({ type: "partner", name: "A", organisation: "", email: "a@b.co", message: "We are a law firm in Panama.", consent: true })
+        .success,
+    ).toBe(true);
   });
 });

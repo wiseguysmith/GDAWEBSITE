@@ -96,7 +96,7 @@ export const applications: Application[] = [
   },
 ];
 
-export const instrumentsNote =
+export const instrumentsNote: string =
   "The appropriate instrument — equity, debt, revenue-linked rights, an asset-backed structure or another — is determined separately according to the project, its jurisdiction and its legal structure, with professional guidance. Every project begins with the same Fit Check.";
 
 /** Section 5 principles (handoff §11). No absolute claims. */

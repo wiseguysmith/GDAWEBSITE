@@ -10,13 +10,17 @@ type ProcessTimelineProps = {
   stages: readonly Stage[];
   /** Show the "who is responsible" line on each stage (How It Works). */
   detailed?: boolean;
+  /** Localised sticky identifier template with {current} and {total}, e.g. "Stage {current} of {total}". */
+  stageLabel: string;
+  /** Localised label for the responsible line when `detailed`. */
+  responsibleLabel?: string;
 };
 
 /**
  * Desktop: sticky stage identifier left, stages right along a line that draws
  * with scroll. Mobile: stacked, line in the left gutter, no sticky (handoff §11).
  */
-export function ProcessTimeline({ stages, detailed = false }: ProcessTimelineProps) {
+export function ProcessTimeline({ stages, detailed = false, stageLabel, responsibleLabel }: ProcessTimelineProps) {
   const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const [active, setActive] = useState(0);
@@ -35,7 +39,7 @@ export function ProcessTimeline({ stages, detailed = false }: ProcessTimelinePro
       <div className="hidden lg:col-span-4 lg:block">
         <div className="sticky top-[calc(var(--header-h)+var(--s-12))] flex flex-col gap-6">
           <p className="text-eyebrow text-fg-3" aria-live="polite" aria-atomic="true">
-            Stage {String(current.index).padStart(2, "0")} of {String(stages.length).padStart(2, "0")}
+            {stageLabel.replace("{current}", String(current.index).padStart(2, "0")).replace("{total}", String(stages.length).padStart(2, "0"))}
           </p>
           <div className="relative h-[1.1em] text-display-l text-fg" aria-hidden="true">
             {stages.map((s, i) => (
@@ -77,7 +81,7 @@ export function ProcessTimeline({ stages, detailed = false }: ProcessTimelinePro
         </div>
         <ol className="flex flex-col">
           {stages.map((stage, i) => (
-            <ProcessStage key={stage.name} stage={stage} reached={i <= active} detailed={detailed} />
+            <ProcessStage key={stage.name} stage={stage} reached={i <= active} detailed={detailed} responsibleLabel={responsibleLabel} />
           ))}
         </ol>
       </div>

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { features } from "@/config/features";
 import { site } from "@/config/site";
+import { defaultLocale, locales } from "@/lib/i18n/locales";
 
 export default function robots(): MetadataRoute.Robots {
   // Preview and non-production deployments are never indexed.
@@ -8,12 +9,14 @@ export default function robots(): MetadataRoute.Robots {
   if (!isProduction) {
     return { rules: [{ userAgent: "*", disallow: "/" }] };
   }
+  const prefixes = locales.map((l) => (l === defaultLocale ? "" : `/${l}`));
+  const privatePaths = ["/dev/", "/evaluate", "/investors/access", ...features.reservedRoutes];
   return {
     rules: [
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/dev/", "/evaluate", "/investors/access", ...features.reservedRoutes],
+        disallow: ["/api/", ...prefixes.flatMap((p) => privatePaths.map((path) => `${p}${path}`))],
       },
     ],
     sitemap: new URL("/sitemap.xml", site.url).toString(),

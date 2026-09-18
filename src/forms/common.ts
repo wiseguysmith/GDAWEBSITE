@@ -11,13 +11,7 @@ export const countryCode = z
 
 export const shortText = (max = 200) => z.string().trim().min(1, "This answer is required.").max(max, `Please keep this under ${max} characters.`);
 
-export const optionalText = (max = 200) =>
-  z
-    .string()
-    .trim()
-    .max(max, `Please keep this under ${max} characters.`)
-    .optional()
-    .or(z.literal(""));
+export const optionalText = (max = 200) => z.string().trim().max(max, `Please keep this under ${max} characters.`).optional().or(z.literal(""));
 
 export const email = z.string().trim().min(1, "Please enter your email.").email("Please enter a valid email address.").max(254);
 

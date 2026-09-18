@@ -1,4 +1,6 @@
-import { content } from "@/content";
+"use client";
+
+import { useContent } from "@/content/useContent";
 import type { Stage } from "@/content/types";
 import { cn } from "@/lib/cn";
 
@@ -17,7 +19,7 @@ type StagePositionProps = {
  * is the point. CSS-only animation; the server HTML is the resting state.
  */
 export function StagePosition({ stages, current, currentState, className }: StagePositionProps) {
-  const ui = content.flowUi.position;
+  const ui = useContent().flowUi.position;
   const total = stages.length;
   // Fill reaches the current node's centre: nodes sit at 0, 1/(n-1) … of the track.
   const fillPct = total > 1 ? ((current - 1) / (total - 1)) * 100 : 0;

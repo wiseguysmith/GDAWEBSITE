@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { LocalizedLink as Link } from "@/components/actions/LocalizedLink";
 import type { ComponentPropsWithoutRef } from "react";
 import { cn } from "@/lib/cn";
 

@@ -32,6 +32,7 @@ export const privacy: LegalDocument = {
         "Investor Access request: investor type, jurisdiction, areas of interest, optional allocation range, your self-described investor status, and your name, organisation, role, email, optional phone and preferred language.",
         "Contact form: enquiry type, name, organisation, email and message.",
         "Technical information needed to protect the forms: a salted one-way hash of your network address, the time the form was started, and standard request metadata such as browser type and referring page.",
+        "A functional cookie (gda-locale) that remembers the language you choose, kept for one year. It is set only when you use the language switcher.",
       ],
     },
     {

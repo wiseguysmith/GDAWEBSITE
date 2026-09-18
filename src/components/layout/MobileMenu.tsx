@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef, type RefObject } from "react";
 import { cn } from "@/lib/cn";
-import { content } from "@/content";
-import { features } from "@/config/features";
+import { useContent } from "@/content/useContent";
+import { LocalizedLink } from "@/components/actions/LocalizedLink";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { Wordmark } from "./Wordmark";
 
 type MobileMenuProps = {
@@ -18,7 +18,7 @@ const focusable = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1
 
 /** Full-screen navy menu with a focus trap, Esc to close and body scroll lock. */
 export function MobileMenu({ id, open, onClose, returnFocusTo }: MobileMenuProps) {
-  const { nav, footer } = content;
+  const { nav } = useContent();
   const panel = useRef<HTMLDivElement>(null);
   const closeBtn = useRef<HTMLButtonElement>(null);
 
@@ -88,48 +88,43 @@ export function MobileMenu({ id, open, onClose, returnFocusTo }: MobileMenuProps
 
       <nav aria-label="Primary" className="flex-1 overflow-y-auto px-(--margin) pt-8">
         <ul className="flex flex-col">
-          {nav.primary.map((item, i) => (
+          {nav.primary.map((item) => (
             <li key={item.href} className="border-t border-rule">
-              <Link
+              <LocalizedLink
                 href={item.href}
                 onClick={onClose}
                 className="block py-5 text-[clamp(1.75rem,6vw,2.5rem)] leading-tight tracking-[-0.02em] font-medium text-fg"
-                style={{ animationDelay: `${i * 40}ms` }}
               >
                 {item.label}
-              </Link>
+              </LocalizedLink>
             </li>
           ))}
         </ul>
 
         <div className="mt-10 flex flex-col gap-3 border-t border-rule pt-8">
-          <Link
+          <LocalizedLink
             href={nav.cta.href}
             onClick={onClose}
             className="inline-flex h-(--control-h) items-center justify-center rounded-(--radius-control) bg-(--btn-primary-bg) text-(--btn-primary-fg) font-medium"
           >
             {nav.cta.label}
-          </Link>
+          </LocalizedLink>
           {nav.secondary.map((item) => (
-            <Link
+            <LocalizedLink
               key={item.href}
               href={item.href}
               onClick={onClose}
               className="inline-flex h-(--control-h) items-center justify-center rounded-(--radius-control) border border-(--btn-outline-border) text-fg font-medium"
             >
               {item.label}
-            </Link>
+            </LocalizedLink>
           ))}
         </div>
 
-        {features.locales.length > 1 ? (
-          <div className="mt-8 flex items-center gap-4 text-eyebrow text-fg-3">
-            <span>{footer.languageLabel}</span>
-            {footer.languages.map((l) => (
-              <span key={l.code}>{l.label}</span>
-            ))}
-          </div>
-        ) : null}
+        <div className="mt-8 flex flex-col gap-3 border-t border-rule pt-6 pb-8">
+          <span className="text-eyebrow text-fg-3">{nav.language.label}</span>
+          <LanguageSwitcher variant="list" />
+        </div>
       </nav>
     </div>
   );

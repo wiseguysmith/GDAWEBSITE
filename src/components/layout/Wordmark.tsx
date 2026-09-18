@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { LocalizedLink as Link } from "@/components/actions/LocalizedLink";
 import { cn } from "@/lib/cn";
 import { site } from "@/config/site";
 

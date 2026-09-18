@@ -1,11 +1,14 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
-import { content } from "@/content";
+import { useContent } from "@/content/useContent";
+import { localePath, splitLocale } from "@/lib/i18n/locales";
+import { useLocale } from "@/lib/i18n/LocaleProvider";
 import { Button } from "@/components/actions/Button";
+import { LocalizedLink } from "@/components/actions/LocalizedLink";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { Wordmark } from "./Wordmark";
 import { MobileMenu } from "./MobileMenu";
 
@@ -19,8 +22,10 @@ type SiteHeaderProps = {
 const GLASS_AT = 80;
 
 export function SiteHeader({ tone = "dark", minimal = false }: SiteHeaderProps) {
-  const { nav } = content;
+  const { nav } = useContent();
+  const locale = useLocale();
   const pathname = usePathname();
+  const { path: currentPath } = splitLocale(pathname);
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -77,16 +82,16 @@ export function SiteHeader({ tone = "dark", minimal = false }: SiteHeaderProps) 
             <nav aria-label="Primary" className="hidden nav:block">
               <ul className="flex items-center gap-8">
                 {nav.primary.map((item) => {
-                  const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+                  const active = currentPath === item.href || currentPath.startsWith(`${item.href}/`);
                   return (
                     <li key={item.href}>
-                      <Link
+                      <LocalizedLink
                         href={item.href}
                         aria-current={active ? "page" : undefined}
                         className={cn("link-draw text-sm text-fg-2 hover:text-fg transition-colors duration-(--d-micro)", active && "text-fg")}
                       >
                         {item.label}
-                      </Link>
+                      </LocalizedLink>
                     </li>
                   );
                 })}
@@ -94,7 +99,8 @@ export function SiteHeader({ tone = "dark", minimal = false }: SiteHeaderProps) 
             </nav>
           ) : null}
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
+            <LanguageSwitcher className="hidden md:flex" />
             {!minimal ? (
               <>
                 <span className="hidden md:inline-flex">
@@ -120,9 +126,9 @@ export function SiteHeader({ tone = "dark", minimal = false }: SiteHeaderProps) 
                 </button>
               </>
             ) : (
-              <Link href="/" className="link-draw text-sm text-fg-2 hover:text-fg">
-                Exit
-              </Link>
+              <a href={localePath(locale, "/")} className="link-draw text-sm text-fg-2 hover:text-fg">
+                {nav.exit}
+              </a>
             )}
           </div>
         </div>

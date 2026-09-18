@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
-import { site } from "@/config/site";
+import { defaultLocale, localeMeta, locales } from "@/lib/i18n/locales";
+import { absoluteUrl } from "@/lib/seo/metadata";
 
 /**
- * Only indexable marketing pages. Flows, confirmation states, the API and
- * reserved Phase 2/3 routes are excluded (handoff §29).
+ * Indexable marketing pages in every locale, each with hreflang alternates.
+ * Flows, confirmation states, the API and reserved routes are excluded (handoff §29).
  */
 const indexable: { path: string; priority: number; changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"] }[] = [
   { path: "/", priority: 1, changeFrequency: "monthly" },
@@ -22,10 +23,15 @@ const indexable: { path: string; priority: number; changeFrequency: MetadataRout
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
-  return indexable.map((entry) => ({
-    url: new URL(entry.path, site.url).toString(),
-    lastModified,
-    changeFrequency: entry.changeFrequency,
-    priority: entry.priority,
-  }));
+  return indexable.flatMap((entry) => {
+    const languages: Record<string, string> = Object.fromEntries(locales.map((l) => [localeMeta[l].htmlLang, absoluteUrl(l, entry.path)]));
+    languages["x-default"] = absoluteUrl(defaultLocale, entry.path);
+    return locales.map((locale) => ({
+      url: absoluteUrl(locale, entry.path),
+      lastModified,
+      changeFrequency: entry.changeFrequency,
+      priority: locale === defaultLocale ? entry.priority : Math.round(entry.priority * 0.9 * 10) / 10,
+      alternates: { languages },
+    }));
+  });
 }

@@ -2,7 +2,9 @@
  * Legal wording used inline across the site. Working copy until reviewed by
  * counsel (handoff §21). Change here, never in components.
  */
-export const legal = {
+import type { LegalLines } from "../types";
+
+export const legal: LegalLines = {
   /** Footer of every page. */
   standing:
     "Global Digital Access coordinates a readiness and structuring process for real-world projects. GDA does not replace licensed legal, compliance, investment, tax, valuation or other professional advisers. Nothing on this website constitutes an offer, solicitation, investment recommendation or guarantee of outcome. Any offering, verification or regulated activity must be conducted through the appropriate documentation, entities and professional or licensed providers where required.",
@@ -21,4 +23,4 @@ export const legal = {
 
   /** Short line for the footer above the standing disclosure. */
   footprintIntro: "Operating footprint",
-} as const;
+};

@@ -1,15 +1,35 @@
-import { content } from "@/content";
+import { content as english, getContent, type Content } from "@/content";
 import { site } from "@/config/site";
 import { countryName } from "@/lib/countries";
+import { defaultLocale, isLocale, type Locale } from "@/lib/i18n/locales";
 import { escapeHtml } from "@/lib/security/sanitize";
 import type { Submission } from "@/integrations/types";
 
 /**
  * Plain, institutional email bodies. The confirmation restates the on-screen
- * result copy verbatim (handoff §13) and never uses "accepted" or "approved".
+ * result copy verbatim (handoff §13), in the submitter's language, and never
+ * uses "accepted" or "approved". The internal notification stays in English.
  */
 
 type Email = { subject: string; text: string; html: string };
+
+const confirmationLabels: Record<Locale, { reference: string; subject: (kind: string, ref: string) => string; kinds: Record<Submission["kind"], string> }> = {
+  en: {
+    reference: "Reference",
+    subject: (kind, ref) => `${kind} received — reference ${ref}`,
+    kinds: { "fit-check": "Fit Check", "investor-access": "Investor Access request", contact: "Enquiry" },
+  },
+  es: {
+    reference: "Referencia",
+    subject: (kind, ref) => `${kind} recibida — referencia ${ref}`,
+    kinds: { "fit-check": "Evaluación de Idoneidad", "investor-access": "Solicitud de acceso para inversionistas", contact: "Consulta" },
+  },
+};
+
+/** The submitter's preferred language when supported; English otherwise (e.g. "pt" until translated). */
+function localeOf(submission: Submission): Locale {
+  return isLocale(submission.locale) ? submission.locale : defaultLocale;
+}
 
 const labelFor: Record<string, string> = {
   projectType: "Project type",
@@ -56,8 +76,8 @@ function answersRows(answers: Record<string, unknown>): { label: string; value: 
     .map(([key, value]) => ({ label: labelFor[key] ?? key, value: formatValue(key, value) }));
 }
 
-function shell(title: string, bodyHtml: string): string {
-  return `<!doctype html><html><body style="margin:0;background:#f4f5f7;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;color:#0e1420">
+function shell(title: string, bodyHtml: string, content: Content, lang: Locale): string {
+  return `<!doctype html><html lang="${lang}"><body style="margin:0;background:#f4f5f7;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;color:#0e1420">
 <div style="max-width:600px;margin:0 auto;padding:32px 20px">
   <p style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#4b5566;margin:0 0 24px">${escapeHtml(site.name)}</p>
   <h1 style="font-size:24px;font-weight:500;letter-spacing:-.01em;margin:0 0 16px">${escapeHtml(title)}</h1>
@@ -80,7 +100,7 @@ function table(rows: { label: string; value: string }[]): string {
 }
 
 /** "You are here" for the Fit Check confirmation: the five stages with honest states. */
-function stagePosition(result: string | undefined): { text: string[]; html: string } {
+function stagePosition(result: string | undefined, content: Content): { text: string[]; html: string } {
   const ui = content.flowUi.position;
   const stages = content.shared.stages;
   const currentState = result === "potential-fit" ? ui.fitPotential : ui.fitReview;
@@ -99,8 +119,11 @@ function stagePosition(result: string | undefined): { text: string[]; html: stri
   return { text, html };
 }
 
-/** Sent to the person who submitted. */
+/** Sent to the person who submitted, in their preferred language. */
 export function confirmationEmail(submission: Submission): Email {
+  const locale = localeOf(submission);
+  const content = getContent(locale);
+  const labels = confirmationLabels[locale];
   const ref = submission.id;
   let heading: string;
   let body: string[];
@@ -110,7 +133,7 @@ export function confirmationEmail(submission: Submission): Email {
     const result = content.fitCheck.results[submission.result as keyof typeof content.fitCheck.results] ?? content.fitCheck.results["submitted-for-review"];
     heading = result.heading;
     body = [...result.paragraphs];
-    position = stagePosition(submission.result);
+    position = stagePosition(submission.result, content);
   } else if (submission.kind === "investor-access") {
     heading = content.investorAccess.results.received.heading;
     body = [...content.investorAccess.results.received.paragraphs];
@@ -119,25 +142,30 @@ export function confirmationEmail(submission: Submission): Email {
     body = [content.contact.confirmation.body];
   }
 
-  const kindLabel = submission.kind === "fit-check" ? "Fit Check" : submission.kind === "investor-access" ? "Investor Access request" : "Enquiry";
-  const subject = `${kindLabel} received — reference ${ref}`;
-  const text = [heading, "", ...body, "", `Reference: ${ref}`, ...(position ? ["", ...position.text] : []), "", content.legal.standing].join("\n");
+  const subject = labels.subject(labels.kinds[submission.kind], ref);
+  const text = [heading, "", ...body, "", `${labels.reference}: ${ref}`, ...(position ? ["", ...position.text] : []), "", content.legal.standing].join("\n");
   const html = shell(
     heading,
-    `${paragraphs(body)}<p style="font-family:ui-monospace,Menlo,monospace;font-size:13px;color:#4b5566;margin-top:16px">Reference ${escapeHtml(ref)}</p>${position?.html ?? ""}`,
+    `${paragraphs(body)}<p style="font-family:ui-monospace,Menlo,monospace;font-size:13px;color:#4b5566;margin-top:16px">${escapeHtml(labels.reference)} ${escapeHtml(ref)}</p>${position?.html ?? ""}`,
+    content,
+    locale,
   );
   return { subject, text, html };
 }
 
-/** Sent to the GDA inbox. */
+/** Sent to the GDA inbox — always English, with the submitter's language noted. */
 export function notificationEmail(submission: Submission): Email {
   const rows = answersRows(submission.answers);
   const subject = `[${submission.kind}] ${submission.id}${submission.result ? ` · ${submission.result}` : ""}`;
-  const summary = [`Reference: ${submission.id}`, `Kind: ${submission.kind}`, `Result: ${submission.result ?? "-"}`, `Tags: ${submission.tags.join(", ") || "-"}`, `Received: ${submission.createdAt}`];
+  const summary = [
+    `Reference: ${submission.id}`,
+    `Kind: ${submission.kind}`,
+    `Result: ${submission.result ?? "-"}`,
+    `Tags: ${submission.tags.join(", ") || "-"}`,
+    `Language: ${submission.locale}`,
+    `Received: ${submission.createdAt}`,
+  ];
   const text = [...summary, "", ...rows.map((r) => `${r.label}: ${r.value}`)].join("\n");
-  const html = shell(
-    `New ${submission.kind} submission`,
-    `${paragraphs(summary)}${table(rows)}`,
-  );
+  const html = shell(`New ${submission.kind} submission`, `${paragraphs(summary)}${table(rows)}`, english, defaultLocale);
   return { subject, text, html };
 }

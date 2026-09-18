@@ -37,6 +37,8 @@ export const home = {
     heading: "Five stages. One clear path.",
     sub: "Every project moves through the same sequence. You always know where you stand, what comes next, and who is responsible for it.",
     link: { label: "See the full process", href: "/how-it-works" } satisfies Cta,
+    /** Sticky identifier in the process timeline, e.g. "Stage 01 of 05". */
+    stageLabel: "Stage {current} of {total}",
   },
 
   applications: {

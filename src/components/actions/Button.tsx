@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { LocalizedLink as Link } from "@/components/actions/LocalizedLink";
 import type { ComponentPropsWithoutRef, MouseEvent } from "react";
 import { cn } from "@/lib/cn";
 import { analyticsEvents } from "@/lib/analytics/events";
