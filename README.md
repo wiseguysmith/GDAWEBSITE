@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Global Digital Access — website
 
-## Getting Started
+Real-world value. Digital infrastructure. Global access.
 
-First, run the development server:
+The public website for Global Digital Access (GDA): homepage, How It Works, Projects, Investors, Partners, About, Contact, the Project Fit Check and Investor Access flows, and the legal/supporting pages.
+
+## Run locally
+
+Requires Node.js 20.9+ (24 recommended).
 
 ```bash
+npm install
+cp .env.example .env.local   # optional: configure adapters, analytics, protection
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000. Without any adapters configured, submissions are written to the server log (development only).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Verify
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run verify   # lint, typecheck, unit tests, production build
+```
 
-## Learn More
+The build runs `scripts/check-placeholders.mjs` first. Locally it warns; on production deploys (`VERCEL_ENV=production`) it fails while any content placeholder — legal entity, addresses, privacy contact, processors — remains. Fill those in `src/config/site.ts` and `src/content/en/{privacy,terms}.ts` with counsel before launch.
 
-To learn more about Next.js, take a look at the following resources:
+## Before launch
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Fill the placeholders above and have counsel review `/disclosures`, `/privacy`, `/terms`, the flow result copy and the standing disclosure (`src/content/en/legal.ts`).
+2. Configure a durable submission destination (Airtable recommended) and email (Resend, with a verified sending domain and SPF/DKIM/DMARC).
+3. Set `NEXT_PUBLIC_SITE_URL` to the production origin.
+4. Optionally: Upstash (shared rate limiting), Cloudflare Turnstile, Plausible.
+5. Add real team members to `src/content/en/team.ts` when portraits and bios are approved — the section stays hidden until then.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See `docs/ARCHITECTURE.md` for the full architecture.

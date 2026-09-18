@@ -4,7 +4,7 @@ import type { LegalDocument } from "../types";
 /** Working copy until reviewed by counsel. */
 export const terms: LegalDocument = {
   meta: {
-    title: "Terms of Use — Global Digital Access",
+    title: "Terms of Use",
     description: "Terms governing use of the Global Digital Access website.",
   },
   title: "Terms of use",

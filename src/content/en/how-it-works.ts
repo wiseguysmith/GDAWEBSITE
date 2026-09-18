@@ -2,7 +2,7 @@ import type { ContentBlock, Cta, FaqItem, Meta } from "../types";
 
 export const howItWorks = {
   meta: {
-    title: "How It Works — Global Digital Access",
+    title: "How It Works",
     description:
       "Three pillars, five stages, one clear path. How GDA coordinates the readiness and structuring process, who is responsible at each stage, and what GDA does not do.",
   } satisfies Meta,

@@ -23,7 +23,7 @@ import { Turnstile } from "./Turnstile";
 
 type Phase = "intro" | "step" | "review" | "submitting" | "result" | "error";
 
-type Outcome = { id: string; result?: string };
+type Outcome = { id: string; result?: string; emailed?: boolean };
 
 type FlowShellProps = { flowId: FlowId };
 
@@ -180,7 +180,11 @@ export function FlowShell({ flowId }: FlowShellProps) {
   return (
     <div className="mx-auto w-full max-w-(--container-narrow)">
       {phase !== "intro" && phase !== "result" ? (
-        <FlowProgress current={phase === "review" || phase === "submitting" || phase === "error" ? total + 1 : stepIndex + 1} total={total + 1} label={ui.stepOf} />
+        <FlowProgress
+          current={phase === "step" ? stepIndex + 1 : total + 1}
+          total={total}
+          text={phase === "step" ? ui.stepOf(stepIndex + 1, total) : ui.review}
+        />
       ) : null}
 
       <AnimatePresence mode="wait" initial={false}>
@@ -233,7 +237,6 @@ export function FlowShell({ flowId }: FlowShellProps) {
             <StepForm
               step={step}
               index={stepIndex}
-              total={total}
               defaults={answers}
               headingRef={headingRef}
               onSubmit={commitStep}
@@ -307,7 +310,6 @@ export function FlowShell({ flowId }: FlowShellProps) {
 type StepFormProps = {
   step: StepDefinition;
   index: number;
-  total: number;
   defaults: FlowAnswers;
   headingRef: React.RefObject<HTMLHeadingElement | null>;
   onSubmit: (values: FlowAnswers) => void;
@@ -317,7 +319,7 @@ type StepFormProps = {
 };
 
 /** One question per screen, validated with the step's zod schema on Continue. */
-function StepForm({ step, index, total, defaults, headingRef, onSubmit, onBack, onClearDraft, isLast }: StepFormProps) {
+function StepForm({ step, index, defaults, headingRef, onSubmit, onBack, onClearDraft, isLast }: StepFormProps) {
   const ui = content.flowUi;
   const {
     register,
@@ -348,7 +350,6 @@ function StepForm({ step, index, total, defaults, headingRef, onSubmit, onBack, 
       className="flex flex-col gap-10"
     >
       <div className="flex flex-col gap-3">
-        <p className="text-eyebrow text-fg-3 tabular">{ui.stepOf(index + 1, total)}</p>
         <h1 id="flow-heading" ref={headingRef} tabIndex={-1} className="text-h3 text-fg outline-none sm:text-display-l">
           {step.title}
         </h1>

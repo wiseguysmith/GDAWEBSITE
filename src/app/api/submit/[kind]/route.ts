@@ -117,7 +117,7 @@ export async function POST(request: NextRequest, ctx: RouteContext<"/api/submit/
 
   // Spam defences.
   const spam = await checkSpam({
-    honeypot: metaParsed.data.honeypot ?? (answers as Record<string, unknown> | undefined)?.[honeypotField]?.toString(),
+    honeypot: metaParsed.data.honeypot || (answers as Record<string, unknown> | undefined)?.[honeypotField]?.toString(),
     startedAt: metaParsed.data.startedAt,
     turnstileToken: metaParsed.data.turnstileToken,
     ip,
@@ -191,7 +191,9 @@ export async function POST(request: NextRequest, ctx: RouteContext<"/api/submit/
     const report = await deliver(submission);
     await remember(metaParsed.data.attemptKey, { id: submission.id, result });
     console.info(`[submission] ${submission.id} ${submission.kind} delivered primary=${report.primary} secondaries=${report.secondaries.map((s) => `${s.name}:${s.ok ? "ok" : "failed"}`).join(",") || "-"}`);
-    return NextResponse.json({ id: submission.id, result });
+    // Only claim an email was sent when the email adapter actually succeeded.
+    const emailed = report.secondaries.some((s) => s.name === "email" && s.ok) || report.primaryNotified === "email";
+    return NextResponse.json({ id: submission.id, result, emailed });
   } catch (err) {
     console.error(`[submission] ${submission.id} ${submission.kind} primary failed: ${err instanceof Error ? err.message : String(err)}`);
     return NextResponse.json({ error: "delivery-failed" }, { status: 503 });

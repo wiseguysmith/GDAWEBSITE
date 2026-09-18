@@ -9,7 +9,7 @@ import { Arrow } from "@/components/actions/ArrowLink";
 
 type ResultStateProps = {
   flow: FlowDefinition;
-  outcome: { id: string; result?: string };
+  outcome: { id: string; result?: string; emailed?: boolean };
   headingRef: React.RefObject<HTMLHeadingElement | null>;
 };
 
@@ -37,7 +37,7 @@ export function ResultState({ flow, outcome, headingRef }: ResultStateProps) {
       <div className="flex flex-col gap-2 border-t border-b border-rule py-5">
         <span className="text-eyebrow text-fg-3">{ui.reference}</span>
         <span className="font-mono text-h4 tabular text-fg">{outcome.id}</span>
-        <span className="text-small text-fg-2">{flow.afterResult.emailNote}</span>
+        <span className="text-small text-fg-2">{outcome.emailed ? flow.afterResult.emailNote : flow.afterResult.keepNote}</span>
       </div>
       <Disclosure variant={flow.intro.disclosure} />
       <ul className="flex flex-col gap-3">

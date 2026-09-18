@@ -5,7 +5,7 @@ import { legal } from "./legal";
 /** Working copy until reviewed by counsel (handoff §21). */
 export const disclosures: LegalDocument = {
   meta: {
-    title: "Important Disclosures — Global Digital Access",
+    title: "Important Disclosures",
     description: "Plain-English company and regulatory disclosures for Global Digital Access.",
   },
   title: "Important disclosures",

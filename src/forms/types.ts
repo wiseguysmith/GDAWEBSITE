@@ -52,7 +52,10 @@ export type FlowDefinition = {
   steps: StepDefinition[];
   results: Record<string, FlowResult>;
   afterResult: {
+    /** Shown only when the confirmation email was actually sent. */
     emailNote: string;
+    /** Shown otherwise. */
+    keepNote: string;
     links: { label: string; href: string }[];
   };
   analytics: {

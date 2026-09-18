@@ -39,7 +39,7 @@ export const flowUi = {
 
 export const fitCheck = {
   meta: {
-    title: "Project Fit Check — Global Digital Access",
+    title: "Project Fit Check",
     description: "Seven short questions to determine whether digital-asset infrastructure may be appropriate for your project.",
   },
   intro: {
@@ -112,14 +112,14 @@ export const fitCheck = {
         { value: "explore", label: "Explore whether tokenization makes sense" },
         { value: "other", label: "Other" },
       ],
-      alsoLabel: "Also relevant (optional)",
+      alsoLabel: "Also relevant",
       otherLabel: "Describe your objective",
     },
     economics: {
       title: "What is the approximate value of the project or asset?",
       help: "Ranges are enough. This informs economics and internal routing; it is not a qualification threshold.",
       valueLabel: "Approximate project or asset value (USD equivalent)",
-      capitalLabel: "Capital requirement or amount sought (optional)",
+      capitalLabel: "Capital requirement or amount sought",
       options: [
         { value: "under-1m", label: "Under 1 million" },
         { value: "1m-5m", label: "1 – 5 million" },
@@ -135,14 +135,14 @@ export const fitCheck = {
       organisation: "Organisation",
       role: "Role",
       email: "Email",
-      phone: "Phone (optional)",
+      phone: "Phone",
       language: "Preferred language",
       languages: [
         { value: "en", label: "English" },
         { value: "es", label: "Español" },
         { value: "pt", label: "Português" },
       ],
-      comments: "Anything else we should know? (optional)",
+      comments: "Anything else we should know?",
       commentsHelp: "Please do not include confidential documents or sensitive personal information.",
     },
   },
@@ -166,6 +166,7 @@ export const fitCheck = {
   },
   afterResult: {
     emailNote: "A confirmation with this reference has been sent to your email address.",
+    keepNote: "Please keep this reference for your records.",
     links: [
       { label: "How the process works", href: "/how-it-works" },
       { label: "Return to the homepage", href: "/" },
@@ -175,7 +176,7 @@ export const fitCheck = {
 
 export const investorAccess = {
   meta: {
-    title: "Request Investor Access — Global Digital Access",
+    title: "Request Investor Access",
     description: "Request access to GDA's developing investor pathway. No offer, no solicitation, no documents.",
   },
   intro: {
@@ -240,10 +241,10 @@ export const investorAccess = {
     contact: {
       title: "How can GDA reach you?",
       name: "Full name",
-      organisation: "Organisation (optional)",
-      role: "Role (optional)",
+      organisation: "Organisation",
+      role: "Role",
       email: "Email",
-      phone: "Phone (optional)",
+      phone: "Phone",
       language: "Preferred language",
       languages: [
         { value: "en", label: "English" },
@@ -264,6 +265,7 @@ export const investorAccess = {
   },
   afterResult: {
     emailNote: "A confirmation with this reference has been sent to your email address.",
+    keepNote: "Please keep this reference for your records.",
     links: [
       { label: "About the investor pathway", href: "/investors" },
       { label: "Return to the homepage", href: "/" },

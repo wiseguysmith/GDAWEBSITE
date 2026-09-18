@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { consent, countryCode, email, language, optionalText, phone, shortText } from "../common";
+import { consent, countryCode, email, language, multi, optionalText, phone, shortText } from "../common";
 
 export const investorTypes = ["individual", "family-office", "institutional", "fund", "corporate", "other"] as const;
 export const interests = ["real-estate", "environmental", "infrastructure", "agriculture", "energy", "private-enterprise", "open"] as const;
@@ -22,7 +22,7 @@ export const stepJurisdiction = z.object({
 });
 
 export const stepInterests = z.object({
-  interests: z.array(z.enum(interests)).min(1, "Please choose at least one.").max(7),
+  interests: multi(z.enum(interests)).pipe(z.array(z.enum(interests)).min(1, "Please choose at least one.").max(7)),
 });
 
 export const stepAllocation = z.object({

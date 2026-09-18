@@ -2,7 +2,7 @@ import type { ContentBlock, Cta, Meta } from "../types";
 
 export const about = {
   meta: {
-    title: "About — Global Digital Access",
+    title: "About",
     description:
       "Global platform. Local execution. GDA's mission, operating principles, professional-network philosophy, jurisdiction-aware model and current operating footprint.",
   } satisfies Meta,

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { consent, countryCode, email, language, optionalText, phone, shortText } from "../common";
+import { consent, countryCode, email, language, multi, optionalText, phone, shortText } from "../common";
 
 /**
  * Fit Check answers — one schema per step, composed into the full schema
@@ -56,7 +56,7 @@ export const stepRelationship = z
 export const stepObjective = z
   .object({
     objective: z.enum(objectives, { errorMap: () => ({ message: "Please choose one." }) }),
-    objectivesAlso: z.array(z.enum(objectives)).max(8).optional().default([]),
+    objectivesAlso: multi(z.enum(objectives)),
     objectiveOther: optionalText(200),
   })
   .superRefine(requireWhenOther("objective", "objectiveOther"));

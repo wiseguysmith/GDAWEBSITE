@@ -31,6 +31,13 @@ export const phone = z
 
 export const language = z.enum(["en", "es", "pt"]);
 
+/**
+ * Checkbox groups: react-hook-form reports no selection as `false` and a
+ * single selection as a string in some browsers. Normalise to an array.
+ */
+export const multi = <T extends z.ZodTypeAny>(item: T) =>
+  z.preprocess((v) => (v === false || v == null || v === "" ? [] : typeof v === "string" ? [v] : v), z.array(item));
+
 export const consent = z.literal(true, { errorMap: () => ({ message: "Please confirm consent to continue." }) });
 
 /** Meta sent with every submission for spam checks and idempotency. */

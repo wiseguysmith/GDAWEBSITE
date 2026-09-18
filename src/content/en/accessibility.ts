@@ -3,7 +3,7 @@ import type { LegalDocument } from "../types";
 
 export const accessibility: LegalDocument = {
   meta: {
-    title: "Accessibility — Global Digital Access",
+    title: "Accessibility",
     description: "Global Digital Access's accessibility statement for this website.",
   },
   title: "Accessibility statement",

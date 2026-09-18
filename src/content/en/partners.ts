@@ -45,7 +45,7 @@ export const partnerLogos: PartnerLogo[] = [];
 
 export const partners = {
   meta: {
-    title: "Partners — Global Digital Access",
+    title: "Partners",
     description:
       "Independent expertise. Coordinated execution. How GDA works with legal, compliance, valuation, environmental, technical and infrastructure partners in each jurisdiction.",
   } satisfies Meta,

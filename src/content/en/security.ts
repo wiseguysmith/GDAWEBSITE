@@ -7,7 +7,7 @@ import type { LegalDocument } from "../types";
  */
 export const security: LegalDocument = {
   meta: {
-    title: "Security — Global Digital Access",
+    title: "Security",
     description: "How Global Digital Access handles the information submitted through this website.",
   },
   title: "Information handling",

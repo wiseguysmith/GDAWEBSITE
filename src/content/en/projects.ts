@@ -2,7 +2,7 @@ import type { ContentBlock, Cta, Meta } from "../types";
 
 export const projects = {
   meta: {
-    title: "Projects — Global Digital Access",
+    title: "Projects",
     description:
       "GDA works with owners, sponsors and developers of legitimate real-world projects — real estate, environmental and natural assets, infrastructure, agriculture, energy and private enterprise.",
   } satisfies Meta,

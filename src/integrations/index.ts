@@ -20,6 +20,8 @@ import { createWebhookAdapter } from "./webhook";
 
 export type DeliveryReport = {
   primary: string;
+  /** Name of the primary adapter if its own notify step succeeded. */
+  primaryNotified?: string;
   secondaries: { name: string; ok: boolean; error?: string }[];
 };
 
@@ -75,6 +77,7 @@ export async function deliver(submission: Submission): Promise<DeliveryReport> {
   if (primary.notify) {
     try {
       await primary.notify(submission);
+      report.primaryNotified = primary.name;
     } catch (err) {
       console.error(`[submission] ${submission.id} primary notify failed: ${err instanceof Error ? err.message : String(err)}`);
     }

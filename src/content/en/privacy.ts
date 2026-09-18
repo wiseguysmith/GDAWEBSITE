@@ -10,7 +10,7 @@ import type { LegalDocument } from "../types";
  */
 export const privacy: LegalDocument = {
   meta: {
-    title: "Privacy Policy — Global Digital Access",
+    title: "Privacy Policy",
     description: "How Global Digital Access collects, uses and retains personal information submitted through this website.",
   },
   title: "Privacy policy",

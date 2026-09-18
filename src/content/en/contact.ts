@@ -2,7 +2,7 @@ import type { Meta } from "../types";
 
 export const contact = {
   meta: {
-    title: "Contact — Global Digital Access",
+    title: "Contact",
     description: "General, government, partner and media enquiries for Global Digital Access.",
   } satisfies Meta,
 
